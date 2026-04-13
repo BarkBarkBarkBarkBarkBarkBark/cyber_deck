@@ -2,6 +2,8 @@
 
 Portable computing systems built for technical professionals. This is the v1 marketing and pre-commerce website, built with Next.js 16, TypeScript, and Tailwind CSS.
 
+[Web Site](https://cyber-deck-psi.vercel.app/faq)
+
 ## Tech Stack
 
 - **Framework:** Next.js 16 (App Router)

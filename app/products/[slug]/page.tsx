@@ -10,6 +10,7 @@ import {
 import { formatPrice } from "@/lib/utils"
 import Badge from "@/components/ui/Badge"
 import Button from "@/components/ui/Button"
+import CheckoutButton from "@/components/product/CheckoutButton"
 import ProductCard from "@/components/product/ProductCard"
 import ProductSpecs from "@/components/product/ProductSpecs"
 import Accordion from "@/components/ui/Accordion"
@@ -139,21 +140,19 @@ export default async function ProductDetailPage({ params }: Props) {
             </ul>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col gap-3">
               {isCustom ? (
-                <Button href="/contact" size="lg" className="flex-1">
+                <Button href="/contact" size="lg">
                   Request a Consultation
                 </Button>
               ) : (
-                <Button href="/preorder" size="lg" className="flex-1">
-                  Join Preorder List
-                </Button>
+                <CheckoutButton slug={product.slug} label="Order Now — Secure Checkout" />
               )}
               <Button
                 href="/contact"
                 size="lg"
                 variant="secondary"
-                className="flex-1"
+                className="w-full"
               >
                 Ask a Question
               </Button>
@@ -161,6 +160,9 @@ export default async function ProductDetailPage({ params }: Props) {
 
             <p className="mt-4 text-xs text-slate-600 font-mono">
               90-day hardware warranty · Ships in 4–6 weeks · Open hardware
+            </p>
+            <p className="mt-1 text-xs text-slate-700 font-mono">
+              Secure checkout via Stripe · SSL encrypted
             </p>
           </div>
         </div>
