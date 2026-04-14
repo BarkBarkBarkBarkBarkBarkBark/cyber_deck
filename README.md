@@ -83,6 +83,9 @@ sudo systemctl start hosaka-field-terminal.service
 sudo systemctl status hosaka-field-terminal.service
 ```
 
+`hosaka-field-terminal.service` is now **console-first** (keyboard input on tty1).  
+Use `hosaka-field-terminal-headless.service` only for web-only/headless operation.
+
 Optional install flags:
 
 - `INSTALL_TAILSCALE=1 ./scripts/install_hosaka.sh`
@@ -106,8 +109,14 @@ On boot, systemd runs `python -m hosaka`, which:
 - `/backend` backend endpoint
 - `/workspace` workspace root
 - `/theme` theme
+- `/openclaw` openclaw setup
 - `/progress` JSON progress payload
 - `/complete` finalize setup
+
+### OpenClaw integration
+
+- Onboarding includes an OpenClaw configuration step (path + enable/disable).
+- See implementation roadmap: `docs/openclaw_console_plan.md`.
 
 ### Debugging
 
@@ -116,6 +125,14 @@ sudo journalctl -u hosaka-field-terminal.service -f
 cat /var/lib/hosaka/state.json
 curl http://127.0.0.1:8421/progress
 sudo -u root /opt/hosaka-field-terminal/.venv/bin/python -m hosaka
+```
+
+If you manually run Hosaka while the service is already running, port `8421` may already be occupied.
+In that case, stop the service first or run with a different port:
+
+```bash
+sudo systemctl stop hosaka-field-terminal.service
+HOSAKA_WEB_PORT=8422 sudo -u root /opt/hosaka-field-terminal/.venv/bin/python -m hosaka
 ```
 
 If you change the systemd unit manually, run:
