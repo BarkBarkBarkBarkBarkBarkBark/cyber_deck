@@ -58,7 +58,8 @@ def run_setup_flow(orchestrator: SetupOrchestrator, web_url: str) -> None:
         current_step = orchestrator.state.current_step
         prompt = STEP_PROMPTS.get(current_step, "Press enter to continue.")
         try:
-            answer = console.input(f"\n[bold]{current_step}[/bold]\n{prompt}").strip()
+            console.print(f"\n[bold]{current_step}[/bold]")
+            answer = console.input(prompt, markup=False).strip()
         except (EOFError, KeyboardInterrupt):
             console.print("[yellow]Input stream unavailable; setup can continue from LAN web UI.[/yellow]")
             break

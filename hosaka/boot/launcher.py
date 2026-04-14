@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import os
+import sys
 import threading
+import time
 
 import uvicorn
 
@@ -30,8 +32,18 @@ def launch() -> None:
     web_url = f"http://{orchestrator.state.local_ip}:{WEB_PORT}"
     start_web_server()
 
+    if not sys.stdin.isatty():
+        print(f"Hosaka web setup available at: {web_url}")
+        while True:
+            time.sleep(60)
+
     if not orchestrator.state.setup_completed:
-        run_setup_flow(orchestrator=orchestrator, web_url=web_url)
+        try:
+            run_setup_flow(orchestrator=orchestrator, web_url=web_url)
+        except Exception as exc:  # noqa: BLE001
+            orchestrator.state.last_error = f"Setup flow crashed: {exc}"
+            orchestrator.persist()
+            raise
 
     run_main_console()
 

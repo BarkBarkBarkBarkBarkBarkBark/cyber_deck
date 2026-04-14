@@ -19,6 +19,10 @@ class SetupOrchestrator:
 
     @property
     def step_index(self) -> int:
+        if self.state.current_step not in SETUP_STEPS:
+            self.state.current_step = SETUP_STEPS[0]
+            self.state.last_error = "Invalid setup step in state; reset to first step."
+            self.persist()
         return SETUP_STEPS.index(self.state.current_step)
 
     def progress_percent(self) -> int:
