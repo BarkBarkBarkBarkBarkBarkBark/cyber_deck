@@ -78,7 +78,6 @@ Default setup state path in dev: `/var/lib/hosaka/state.json` (override with `HO
 
 ```bash
 ./scripts/install_hosaka.sh
-sudo systemctl daemon-reload
 sudo systemctl start hosaka-field-terminal.service
 sudo systemctl status hosaka-field-terminal.service
 ```
@@ -117,16 +116,10 @@ cat /var/lib/hosaka/state.json
 curl http://127.0.0.1:8421/progress
 ```
 
-If you change the systemd unit manually, run:
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart hosaka-field-terminal.service
-```
-
 ### Assumptions
 
 - systemd available
 - python3.10+ available
 - no desktop environment required
 - headless-friendly deployment
+
