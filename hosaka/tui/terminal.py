@@ -56,8 +56,12 @@ def run_setup_flow(orchestrator: SetupOrchestrator, web_url: str) -> None:
         orchestrator.update_runtime_network()
         _render_progress(orchestrator)
         current_step = orchestrator.state.current_step
-        prompt = STEP_PROMPTS[current_step]
-        answer = console.input(f"\n[bold]{current_step}[/bold]\n{prompt}").strip()
+        prompt = STEP_PROMPTS.get(current_step, "Press enter to continue.")
+        try:
+            answer = console.input(f"\n[bold]{current_step}[/bold]\n{prompt}").strip()
+        except (EOFError, KeyboardInterrupt):
+            console.print("[yellow]Input stream unavailable; setup can continue from LAN web UI.[/yellow]")
+            break
 
         if answer.startswith("help"):
             intent = classify_intent(answer)

@@ -32,7 +32,16 @@ class SetupOrchestrator:
     def set_field(self, key: str, value: str) -> None:
         if not hasattr(self.state, key):
             raise KeyError(f"Unsupported field: {key}")
-        setattr(self.state, key, value)
+        normalized = value.strip() if isinstance(value, str) else value
+        defaults = {
+            "hostname": "hosaka-field-terminal",
+            "workspace_root": "/opt/hosaka/workspace",
+            "theme": "dark",
+            "tailscale_status": "unknown",
+        }
+        if key in defaults and not normalized:
+            normalized = defaults[key]
+        setattr(self.state, key, normalized)
         self.persist()
 
     def next_step(self) -> str:

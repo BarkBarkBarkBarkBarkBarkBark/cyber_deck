@@ -11,11 +11,9 @@ Environment=PYTHONUNBUFFERED=1
 ExecStart=/opt/hosaka-field-terminal/.venv/bin/python -m hosaka
 Restart=always
 RestartSec=2
-StandardInput=tty
-TTYPath=/dev/tty1
-TTYReset=yes
-TTYVHangup=yes
-TTYVTDisallocate=yes
+StandardInput=null
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
