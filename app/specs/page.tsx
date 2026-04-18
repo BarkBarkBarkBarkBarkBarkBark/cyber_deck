@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { products } from "@/data/products"
 import { formatPrice } from "@/lib/utils"
@@ -52,6 +53,13 @@ export default function SpecsPage() {
         <div className="space-y-16">
           {decks.map((p) => {
             const buy = getShopifyProductPageUrl(p.slug)
+            const hero = p.images[0]
+            const variantLabel =
+              p.slug === "operator-deck"
+                ? "AI edition"
+                : p.slug === "field-deck-lite"
+                  ? "Standard"
+                  : null
             return (
               <section
                 key={p.slug}
@@ -80,32 +88,55 @@ export default function SpecsPage() {
                     ) : null}
                   </div>
                 </div>
-                <div className="px-6 py-6 grid sm:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">
-                      Specs
-                    </h3>
-                    <ul className="space-y-2 text-sm text-slate-400">
-                      {p.specs.map((s) => (
-                        <li key={s} className="flex gap-2">
-                          <span className="text-blue-500/50 shrink-0">·</span>
-                          {s}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">
-                      Included
-                    </h3>
-                    <ul className="space-y-2 text-sm text-slate-400">
-                      {p.features.map((f) => (
-                        <li key={f} className="flex gap-2">
-                          <span className="text-blue-500/50 shrink-0">·</span>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
+                <div className="px-6 py-6 grid lg:grid-cols-[minmax(0,320px)_1fr] gap-8 items-start">
+                  {hero ? (
+                    <figure className="space-y-2 lg:sticky lg:top-28">
+                      <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
+                        <Image
+                          src={hero}
+                          alt={`${p.name} — ${variantLabel ?? "product"} photo`}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 1024px) 100vw, 320px"
+                          priority={p.slug === "field-deck-lite"}
+                        />
+                      </div>
+                      {variantLabel ? (
+                        <figcaption className="text-xs font-mono text-slate-500">
+                          {variantLabel}
+                        </figcaption>
+                      ) : null}
+                    </figure>
+                  ) : null}
+                  <div
+                    className={`grid sm:grid-cols-2 gap-8 ${hero ? "" : "sm:col-span-full"}`}
+                  >
+                    <div>
+                      <h3 className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">
+                        Specs
+                      </h3>
+                      <ul className="space-y-2 text-sm text-slate-400">
+                        {p.specs.map((s) => (
+                          <li key={s} className="flex gap-2">
+                            <span className="text-blue-500/50 shrink-0">·</span>
+                            {s}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-3">
+                        Included
+                      </h3>
+                      <ul className="space-y-2 text-sm text-slate-400">
+                        {p.features.map((f) => (
+                          <li key={f} className="flex gap-2">
+                            <span className="text-blue-500/50 shrink-0">·</span>
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </section>
