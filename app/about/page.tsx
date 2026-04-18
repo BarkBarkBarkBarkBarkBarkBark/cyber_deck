@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button"
 export const metadata: Metadata = {
   title: "About",
   description:
-    "CyberDeck builds portable computing systems for technical professionals — developers, security researchers, and field operators.",
+    "Hosaka builds portable computing systems for technical professionals — developers, security researchers, and field operators.",
 }
 
 const timeline = [
@@ -55,7 +55,7 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 border-b border-slate-800/60">
         <div className="max-w-3xl">
           <p className="text-xs font-mono uppercase tracking-widest text-blue-400 mb-6">
-            About CyberDeck
+            About Hosaka
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-100 tracking-tight mb-6 leading-tight">
             We build portable systems for people who do technical work in the

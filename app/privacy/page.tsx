@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "CyberDeck Privacy Policy.",
+  description: "Hosaka Privacy Policy.",
 }
 
 const lastUpdated = "April 2026"
@@ -148,10 +148,10 @@ export default function PrivacyPage() {
               For privacy questions, data requests, or to exercise your rights,
               contact us at{" "}
               <a
-                href="mailto:privacy@cyberdeck.io"
+                href="mailto:privacy@hosaka.xyz"
                 className="text-blue-400 hover:text-blue-300 transition-colors"
               >
-                privacy@cyberdeck.io
+                privacy@hosaka.xyz
               </a>
               .
             </p>

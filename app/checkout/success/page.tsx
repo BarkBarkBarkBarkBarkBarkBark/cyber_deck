@@ -4,7 +4,7 @@ import { CheckCircle, Package, Mail, ArrowRight } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Order Confirmed",
-  description: "Your CyberDeck order has been confirmed.",
+  description: "Your Hosaka order has been confirmed.",
 }
 
 const steps = [
@@ -12,7 +12,7 @@ const steps = [
     icon: Mail,
     title: "Check your email",
     description:
-      "A confirmation receipt has been sent by Stripe to the email address you provided at checkout.",
+      "A confirmation receipt has been sent to the email address you provided at checkout.",
   },
   {
     icon: Package,

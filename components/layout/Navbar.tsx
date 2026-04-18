@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button"
 
 const navLinks = [
   { href: "/products", label: "Products" },
+  { href: "/demo", label: "Demo" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
@@ -44,8 +45,8 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group shrink-0">
             <Terminal className="w-4 h-4 text-blue-500" />
-            <span className="font-mono font-bold text-slate-100 tracking-tight group-hover:text-blue-400 transition-colors text-sm">
-              CYBER<span className="text-blue-500">/</span>DECK
+            <span className="font-mono font-bold text-slate-100 tracking-tight group-hover:text-blue-400 transition-colors text-sm uppercase">
+              Hosaka
             </span>
           </Link>
 

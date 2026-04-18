@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://cyberdeck.io/sitemap.xml",
+    sitemap: "https://hosaka.xyz/sitemap.xml",
   }
 }

@@ -10,10 +10,11 @@ import {
 import { formatPrice } from "@/lib/utils"
 import Badge from "@/components/ui/Badge"
 import Button from "@/components/ui/Button"
-import CheckoutButton from "@/components/product/CheckoutButton"
+import ShopifyBuyButton from "@/components/product/ShopifyBuyButton"
 import ProductCard from "@/components/product/ProductCard"
 import ProductSpecs from "@/components/product/ProductSpecs"
 import Accordion from "@/components/ui/Accordion"
+import { getShopifyProductId } from "@/lib/shopify"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -37,7 +38,7 @@ const productFaqs = [
   {
     question: "Does this ship fully assembled?",
     answer:
-      "Yes. Every CyberDeck ships fully assembled, tested, and imaged. You do not need to source parts, assemble the hardware, or configure the OS from scratch. Open the box and boot up.",
+      "Yes. Every unit ships fully assembled, tested, and imaged. You do not need to source parts, assemble the hardware, or configure the OS from scratch. Open the box and boot up.",
   },
   {
     question: "What OS comes preinstalled?",
@@ -69,6 +70,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const related = getRelatedProducts(slug)
   const isCustom = product.startingPrice === null
+  const shopifyProductId = getShopifyProductId(slug)
 
   return (
     <div className="bg-slate-950 min-h-screen pt-24">
@@ -145,8 +147,15 @@ export default async function ProductDetailPage({ params }: Props) {
                 <Button href="/contact" size="lg">
                   Request a Consultation
                 </Button>
+              ) : shopifyProductId ? (
+                <ShopifyBuyButton
+                  productId={shopifyProductId}
+                  label="Order Now — Secure Checkout"
+                />
               ) : (
-                <CheckoutButton slug={product.slug} label="Order Now — Secure Checkout" />
+                <Button href="/preorder" size="lg">
+                  Join Preorder List
+                </Button>
               )}
               <Button
                 href="/contact"
@@ -162,7 +171,7 @@ export default async function ProductDetailPage({ params }: Props) {
               90-day hardware warranty · Ships in 4–6 weeks · Open hardware
             </p>
             <p className="mt-1 text-xs text-slate-700 font-mono">
-              Secure checkout via Stripe · SSL encrypted
+              Secure checkout via Shopify · SSL encrypted
             </p>
           </div>
         </div>

@@ -6,7 +6,7 @@ import type { AccordionItem } from "@/components/ui/Accordion"
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Frequently asked questions about CyberDeck products, ordering, shipping, and support.",
+    "Frequently asked questions about Hosaka products, ordering, shipping, and support.",
 }
 
 const faqSections: { title: string; items: AccordionItem[] }[] = [
@@ -16,7 +16,7 @@ const faqSections: { title: string; items: AccordionItem[] }[] = [
       {
         question: "What exactly is a cyberdeck?",
         answer:
-          "A cyberdeck is a custom-built portable computing system — typically combining a compute module (Raspberry Pi or x86 SBC), a small display, an input device, and a battery in a compact, deployable enclosure. Our cyberdecks are professionally assembled and preconfigured, not DIY kits.",
+          "A field terminal is a custom-built portable computing system — typically combining a compute module (Raspberry Pi or x86 SBC), a small display, an input device, and a battery in a compact, deployable enclosure. Our field terminals are professionally assembled and preconfigured, not DIY kits.",
       },
       {
         question: "Do your decks ship fully assembled?",
@@ -56,7 +56,7 @@ const faqSections: { title: string; items: AccordionItem[] }[] = [
       {
         question: "Do you offer team or bulk pricing?",
         answer:
-          "Yes. For orders of 3 or more units, contact us through the Custom Build inquiry type or directly at hello@cyberdeck.io. We offer volume pricing and coordinated deployment support for organizational buyers.",
+          "Yes. For orders of 3 or more units, contact us through the Custom Build inquiry type or directly at hello@hosaka.xyz. We offer volume pricing and coordinated deployment support for organizational buyers.",
       },
       {
         question: "What payment methods do you accept?",

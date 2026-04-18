@@ -34,8 +34,8 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4 group">
               <Terminal className="w-4 h-4 text-blue-500" />
-              <span className="font-mono font-bold text-slate-100 tracking-tight group-hover:text-blue-400 transition-colors text-sm">
-                CYBER<span className="text-blue-500">/</span>DECK
+              <span className="font-mono font-bold text-slate-100 tracking-tight group-hover:text-blue-400 transition-colors text-sm uppercase">
+                Hosaka
               </span>
             </Link>
             <p className="text-slate-500 text-sm leading-relaxed mb-6">
@@ -117,7 +117,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-16 pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-slate-600 font-mono">
-            © {new Date().getFullYear()} CyberDeck. All rights reserved.
+            © {new Date().getFullYear()} Hosaka. All rights reserved.
           </p>
           <p className="text-xs text-slate-700 font-mono">
             Built for professionals who work in the field.

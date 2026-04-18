@@ -5,7 +5,7 @@ import ProductCard from "@/components/product/ProductCard"
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "Browse the CyberDeck product lineup — from the entry-level Field Deck Lite to the full-capability Operator Deck and our Custom Build Program.",
+    "Browse the Hosaka product lineup — from the entry-level Field Deck Lite to the full-capability Operator Deck and our Custom Build Program.",
 }
 
 export default function ProductsPage() {
@@ -20,7 +20,7 @@ export default function ProductsPage() {
           Three configurations. One standard.
         </h1>
         <p className="text-slate-400 max-w-2xl leading-relaxed">
-          Every CyberDeck ships preconfigured and tested. Choose the
+          Every field terminal ships preconfigured and tested. Choose the
           configuration that matches your use case and budget — or work with us
           on something custom.
         </p>

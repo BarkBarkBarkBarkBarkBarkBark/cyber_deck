@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "CyberDeck Terms of Service.",
+  description: "Hosaka Terms of Service.",
 }
 
 const lastUpdated = "April 2026"
@@ -28,7 +28,7 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="leading-relaxed">
-              By accessing or using the CyberDeck website or purchasing our
+              By accessing or using the Hosaka website or purchasing our
               products, you agree to be bound by these Terms of Service. If you
               do not agree to these terms, do not use our services.
             </p>
@@ -103,7 +103,7 @@ export default function TermsPage() {
             <p className="leading-relaxed">
               You expressly agree not to use our products to access systems,
               networks, or data without authorization; to conduct attacks or
-              unauthorized intrusions; or for any illegal purpose. CyberDeck
+              unauthorized intrusions; or for any illegal purpose. Hosaka
               bears no responsibility for misuse of our hardware.
             </p>
           </section>
@@ -114,7 +114,7 @@ export default function TermsPage() {
             </h2>
             <p className="leading-relaxed">
               All content on this website, including text, images, and design,
-              is the property of CyberDeck and protected by applicable
+              is the property of Hosaka and protected by applicable
               intellectual property laws. You may not reproduce or distribute
               our content without written permission.
             </p>
@@ -125,7 +125,7 @@ export default function TermsPage() {
               8. Limitation of Liability
             </h2>
             <p className="leading-relaxed">
-              To the fullest extent permitted by law, CyberDeck shall not be
+              To the fullest extent permitted by law, Hosaka shall not be
               liable for any indirect, incidental, special, or consequential
               damages arising from your use of our products or services. Our
               total liability shall not exceed the amount paid for the
@@ -151,10 +151,10 @@ export default function TermsPage() {
             <p className="leading-relaxed">
               For questions about these Terms of Service, contact us at{" "}
               <a
-                href="mailto:hello@cyberdeck.io"
+                href="mailto:hello@hosaka.xyz"
                 className="text-blue-400 hover:text-blue-300 transition-colors"
               >
-                hello@cyberdeck.io
+                hello@hosaka.xyz
               </a>
               .
             </p>

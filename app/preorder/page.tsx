@@ -5,7 +5,7 @@ import PreorderForm from "./PreorderForm"
 export const metadata: Metadata = {
   title: "Preorder",
   description:
-    "Join the CyberDeck preorder list. Express interest in the Field Deck Lite, Operator Deck, or Custom Build Program and get early access pricing.",
+    "Join the Hosaka preorder list. Express interest in the Field Deck Lite, Operator Deck, or Custom Build Program and get early access pricing.",
 }
 
 const expectations = [

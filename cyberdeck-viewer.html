@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberDeck 3D Viewer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0f1a;
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      height: 100vh;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #ui-overlay {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      pointer-events: none;
+      z-index: 10;
+    }
+    #title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #3b82f6;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    #subtitle {
+      font-size: 10px;
+      color: #475569;
+      letter-spacing: 0.1em;
+    }
+    #controls-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 10px;
+      color: #334155;
+      letter-spacing: 0.08em;
+      line-height: 1.8;
+      pointer-events: none;
+    }
+    #legend {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 10px;
+      color: #475569;
+      letter-spacing: 0.08em;
+      line-height: 2;
+      text-align: right;
+      pointer-events: none;
+    }
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    #explode-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      pointer-events: all;
+      background: transparent;
+      border: 1px solid #1e3a5f;
+      color: #3b82f6;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #explode-btn:hover {
+      background: #1e3a5f;
+      border-color: #3b82f6;
+    }
+  </style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div id="ui-overlay">
+  <div id="title">CYBER/DECK</div>
+  <div id="subtitle">PORTABLE FIELD SYSTEM — 3D MODEL v1.0</div>
+</div>
+
+<div id="controls-hint">
+  LEFT DRAG — ROTATE<br>
+  RIGHT DRAG — PAN<br>
+  SCROLL — ZOOM<br>
+  DOUBLE CLICK — RESET VIEW
+</div>
+
+<div id="legend">
+  <div><span class="dot" style="background:#4a7fc1"></span>CASE BODY</div>
+  <div><span class="dot" style="background:#1e3a5f"></span>SCREEN LID</div>
+  <div><span class="dot" style="background:#0f2440"></span>KEYBOARD DECK</div>
+  <div><span class="dot" style="background:#64748b"></span>PORTS / IO</div>
+  <div><span class="dot" style="background:#1d4ed8"></span>SCREEN</div>
+  <div><span class="dot" style="background:#0f172a"></span>GPIO VENTS</div>
+</div>
+
+<button id="explode-btn" onclick="toggleExplode()">EXPLODE VIEW</button>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+// ── Scene setup ─────────────────────────────────────────────────────────────
+const container = document.getElementById('canvas-container');
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+container.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0f1a);
+scene.fog = new THREE.FogExp2(0x0a0f1a, 0.0025);
+
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+camera.position.set(280, 220, 320);
+camera.lookAt(0, 20, 0);
+
+// ── Controls ─────────────────────────────────────────────────────────────────
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+controls.minDistance = 100;
+controls.maxDistance = 800;
+controls.target.set(0, 20, 0);
+controls.update();
+
+// Reset on double click
+renderer.domElement.addEventListener('dblclick', () => {
+  camera.position.set(280, 220, 320);
+  controls.target.set(0, 20, 0);
+  controls.update();
+});
+
+// ── Lighting ─────────────────────────────────────────────────────────────────
+const ambientLight = new THREE.AmbientLight(0x0a1628, 3);
+scene.add(ambientLight);
+
+const keyLight = new THREE.DirectionalLight(0x4488ff, 3.5);
+keyLight.position.set(200, 300, 200);
+keyLight.castShadow = true;
+keyLight.shadow.mapSize.set(2048, 2048);
+keyLight.shadow.camera.near = 1;
+keyLight.shadow.camera.far = 1000;
+keyLight.shadow.camera.left = -300;
+keyLight.shadow.camera.right = 300;
+keyLight.shadow.camera.top = 300;
+keyLight.shadow.camera.bottom = -300;
+scene.add(keyLight);
+
+const rimLight = new THREE.DirectionalLight(0x0033ff, 1.2);
+rimLight.position.set(-200, 100, -150);
+scene.add(rimLight);
+
+const fillLight = new THREE.PointLight(0x112244, 2, 600);
+fillLight.position.set(0, -100, 0);
+scene.add(fillLight);
+
+// ── Grid ─────────────────────────────────────────────────────────────────────
+const grid = new THREE.GridHelper(600, 30, 0x0d1f3c, 0x0d1f3c);
+grid.position.y = -25;
+scene.add(grid);
+
+// ── Materials ────────────────────────────────────────────────────────────────
+const UNIT = 1; // 1 unit = 1mm
+
+function mat(color, options = {}) {
+  return new THREE.MeshStandardMaterial({
+    color,
+    roughness: options.roughness ?? 0.55,
+    metalness: options.metalness ?? 0.3,
+    ...options
+  });
+}
+
+const matCase     = mat(0x2a4a6e, { roughness: 0.5, metalness: 0.4 });
+const matLid      = mat(0x1e3a5f, { roughness: 0.45, metalness: 0.45 });
+const matKeyboard = mat(0x0f2440, { roughness: 0.7, metalness: 0.2 });
+const matPort     = mat(0x64748b, { roughness: 0.4, metalness: 0.6 });
+const matScreen   = mat(0x020817, { roughness: 0.05, metalness: 0.1, emissive: 0x0a1628, emissiveIntensity: 0.3 });
+const matVent     = mat(0x0f172a, { roughness: 0.8, metalness: 0.1 });
+const matHandle   = mat(0x1e3a5f, { roughness: 0.5, metalness: 0.4 });
+const matAccent   = mat(0x1d4ed8, { roughness: 0.3, metalness: 0.6, emissive: 0x1d4ed8, emissiveIntensity: 0.15 });
+const matKey      = mat(0x1a2d45, { roughness: 0.8, metalness: 0.1 });
+const matScreenGlow = mat(0x0ea5e9, { roughness: 0.05, metalness: 0.0, emissive: 0x0ea5e9, emissiveIntensity: 0.6, transparent: true, opacity: 0.92 });
+
+// ── Parameters (mm) ──────────────────────────────────────────────────────────
+const cW = 220, cD = 160, cH = 40;
+const sW = 180, sH = 100;
+const kW = 170, kH = 60;
+const wT = 3;
+const cr = 6;
+const gap = 8; // gap between base and lid
+
+// ── Part group ────────────────────────────────────────────────────────────────
+const deckGroup = new THREE.Group();
+scene.add(deckGroup);
+
+// All parts tracked for explode
+const parts = [];
+
+function addPart(mesh, name, baseY) {
+  mesh.userData.name = name;
+  mesh.userData.baseY = baseY;
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  deckGroup.add(mesh);
+  parts.push(mesh);
+  return mesh;
+}
+
+// ── BASE SHELL ────────────────────────────────────────────────────────────────
+// Outer rounded box
+const baseOuter = new RoundedBoxGeometry(cW, cH, cD, 4, cr);
+const baseOuterMesh = new THREE.Mesh(baseOuter, matCase);
+baseOuterMesh.position.set(0, cH / 2, 0);
+addPart(baseOuterMesh, 'base', cH / 2);
+
+// Inner cavity (CSG-like: use a slightly inset darker piece to suggest depth)
+const baseInner = new THREE.BoxGeometry(cW - wT*2, cH - wT, cD - wT*2);
+const baseInnerMesh = new THREE.Mesh(baseInner, mat(0x05101e, { roughness: 0.9 }));
+baseInnerMesh.position.set(0, cH - wT / 2, 0);
+addPart(baseInnerMesh, 'base_interior', cH - wT / 2);
+
+// ── KEYBOARD PLATE ────────────────────────────────────────────────────────────
+const kbPlate = new THREE.BoxGeometry(kW, 2, kH);
+const kbPlateMesh = new THREE.Mesh(kbPlate, matKeyboard);
+kbPlateMesh.position.set(0, cH + 0.5, -cD / 2 + 30 + kH / 2);
+addPart(kbPlateMesh, 'keyboard', cH + 0.5);
+
+// Keyboard keys (grid)
+const kCols = 14, kRows = 4;
+const kSpacingX = kW / kCols;
+const kSpacingZ = kH / kRows;
+for (let row = 0; row < kRows; row++) {
+  for (let col = 0; col < kCols; col++) {
+    const isSpace = row === kRows - 1 && col >= 4 && col <= 9;
+    if (row === kRows - 1 && col >= 5 && col <= 9) continue;
+    const keyW = isSpace ? kSpacingX * 6 - 1 : kSpacingX - 1.5;
+    const keyD = kSpacingZ - 1.5;
+    const keyGeo = new THREE.BoxGeometry(keyW, 1.5, keyD);
+    const keyMesh = new THREE.Mesh(keyGeo, matKey);
+    keyMesh.position.set(
+      -kW / 2 + (isSpace ? kSpacingX * 4 + kSpacingX * 3 : col * kSpacingX + kSpacingX / 2),
+      cH + 1.8,
+      -cD / 2 + 30 + row * kSpacingZ + kSpacingZ / 2
+    );
+    addPart(keyMesh, 'key', cH + 1.8);
+  }
+}
+
+// ── SCREEN LID ────────────────────────────────────────────────────────────────
+const lidY = cH + gap;
+const lidOuter = new RoundedBoxGeometry(cW, cH, cD, 4, cr);
+const lidMesh = new THREE.Mesh(lidOuter, matLid);
+lidMesh.position.set(0, lidY + cH / 2, 0);
+addPart(lidMesh, 'lid', lidY + cH / 2);
+
+// Screen cutout fill (the recessed screen area)
+const screenGeo = new THREE.BoxGeometry(sW, 2, sH);
+const screenMesh = new THREE.Mesh(screenGeo, matScreen);
+screenMesh.position.set(0, lidY + cH - wT + 1, 0);
+addPart(screenMesh, 'screen_bg', lidY + cH - wT + 1);
+
+// Screen glass glow
+const screenGlowGeo = new THREE.PlaneGeometry(sW - 2, sH - 2);
+const screenGlowMesh = new THREE.Mesh(screenGlowGeo, matScreenGlow);
+screenGlowMesh.rotation.x = -Math.PI / 2;
+screenGlowMesh.position.set(0, lidY + cH - wT + 2.5, 0);
+addPart(screenGlowMesh, 'screen_glow', lidY + cH - wT + 2.5);
+
+// Screen glow light
+const screenPointLight = new THREE.PointLight(0x0ea5e9, 0.8, 120);
+screenPointLight.position.set(0, lidY + cH, 0);
+deckGroup.add(screenPointLight);
+
+// Scanlines on screen (visual detail)
+for (let i = 0; i < 8; i++) {
+  const lineGeo = new THREE.PlaneGeometry(sW - 4, 0.6);
+  const lineMesh = new THREE.Mesh(lineGeo, mat(0x38bdf8, { emissive: 0x38bdf8, emissiveIntensity: 0.25, transparent: true, opacity: 0.15 }));
+  lineMesh.rotation.x = -Math.PI / 2;
+  lineMesh.position.set(0, lidY + cH - wT + 2.6, -sH / 2 + 8 + i * (sH - 16) / 7);
+  deckGroup.add(lineMesh);
+}
+
+// ── HINGE DETAIL ─────────────────────────────────────────────────────────────
+for (let x of [-50, 0, 50]) {
+  const hingeGeo = new THREE.CylinderGeometry(4, 4, 15, 12);
+  const hingeMesh = new THREE.Mesh(hingeGeo, matPort);
+  hingeMesh.rotation.z = Math.PI / 2;
+  hingeMesh.position.set(x, cH + gap / 2, cD / 2 - 4);
+  addPart(hingeMesh, 'hinge', cH + gap / 2);
+}
+
+// ── ACCENT TRIM LINE ─────────────────────────────────────────────────────────
+const trimGeo = new THREE.BoxGeometry(cW - 4, 2, 2);
+const trimMesh = new THREE.Mesh(trimGeo, matAccent);
+trimMesh.position.set(0, cH - 1, cD / 2 - 3);
+addPart(trimMesh, 'trim', cH - 1);
+
+const trimMesh2 = trimMesh.clone();
+trimMesh2.position.set(0, lidY, cD / 2 - 3);
+addPart(trimMesh2, 'trim2', lidY);
+
+// ── USB PORTS ────────────────────────────────────────────────────────────────
+// USB-A x2
+for (let z of [60, 85]) {
+  const usbGeo = new THREE.BoxGeometry(6, 8, 14);
+  const usbMesh = new THREE.Mesh(usbGeo, matPort);
+  usbMesh.position.set(cW / 2 - 1, 15, -cD / 2 + z);
+  addPart(usbMesh, 'usb', 15);
+
+  // USB inner dark
+  const usbInner = new THREE.BoxGeometry(4, 5, 12);
+  const usbInnerMesh = new THREE.Mesh(usbInner, mat(0x010810, { metalness: 0.0 }));
+  usbInnerMesh.position.set(cW / 2 + 0.5, 15, -cD / 2 + z);
+  addPart(usbInnerMesh, 'usb_inner', 15);
+}
+
+// Power barrel jack
+const pwrGeo = new THREE.CylinderGeometry(4, 4, 8, 12);
+const pwrMesh = new THREE.Mesh(pwrGeo, matPort);
+pwrMesh.rotation.z = Math.PI / 2;
+pwrMesh.position.set(cW / 2 - 1, 15, -cD / 2 + 107);
+addPart(pwrMesh, 'power', 15);
+
+// HDMI
+const hdmiGeo = new THREE.BoxGeometry(6, 7, 15);
+const hdmiMesh = new THREE.Mesh(hdmiGeo, matPort);
+hdmiMesh.position.set(-cW / 2 + 1, 15, -cD / 2 + 40);
+addPart(hdmiMesh, 'hdmi', 15);
+
+// SD Card slot
+const sdGeo = new THREE.BoxGeometry(6, 4, 20);
+const sdMesh = new THREE.Mesh(sdGeo, matPort);
+sdMesh.position.set(-cW / 2 + 1, 10, -cD / 2 + 80);
+addPart(sdMesh, 'sd', 10);
+
+// ── GPIO VENT GRID ────────────────────────────────────────────────────────────
+for (let i = 0; i < 6; i++) {
+  const ventSlotGeo = new THREE.BoxGeometry(8, 4, 6);
+  const ventSlot = new THREE.Mesh(ventSlotGeo, matVent);
+  ventSlot.position.set(-cW / 2 + 20 + i * 20, 20, cD / 2 - 1);
+  addPart(ventSlot, 'vent', 20);
+
+  // Inner shadow
+  const ventInner = new THREE.BoxGeometry(6, 2, 4);
+  const ventInnerMesh = new THREE.Mesh(ventInner, mat(0x010810));
+  ventInnerMesh.position.set(-cW / 2 + 20 + i * 20, 20, cD / 2 + 0.5);
+  addPart(ventInnerMesh, 'vent_inner', 20);
+}
+
+// Vent label
+const ventBarGeo = new THREE.BoxGeometry(140, 1, 3);
+const ventBar = new THREE.Mesh(ventBarGeo, matAccent);
+ventBar.position.set(-cW / 2 + 90, 24, cD / 2 - 1);
+addPart(ventBar, 'vent_bar', 24);
+
+// ── HANDLE ────────────────────────────────────────────────────────────────────
+const handleGeo = new RoundedBoxGeometry(60, 10, 10, 4, 4);
+const handleMesh = new THREE.Mesh(handleGeo, matHandle);
+handleMesh.position.set(0, lidY + cH + 5, 0);
+addPart(handleMesh, 'handle', lidY + cH + 5);
+
+// ── CORNER BUMPERS ────────────────────────────────────────────────────────────
+const corners = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+for (const [sx, sz] of corners) {
+  const bumperGeo = new THREE.CylinderGeometry(5, 5, 4, 8);
+  const bumperMesh = new THREE.Mesh(bumperGeo, mat(0x0f1f35, { roughness: 0.9, metalness: 0.05 }));
+  bumperMesh.position.set(sx * (cW / 2 - 8), -2, sz * (cD / 2 - 8));
+  addPart(bumperMesh, 'bumper', -2);
+}
+
+// ── LOGO DETAIL ──────────────────────────────────────────────────────────────
+const logoGeo = new THREE.BoxGeometry(40, 0.5, 8);
+const logoMesh = new THREE.Mesh(logoGeo, matAccent);
+logoMesh.position.set(0, lidY + cH + 0.5, cD / 2 - 12);
+addPart(logoMesh, 'logo', lidY + cH + 0.5);
+
+// Small indicator LEDs
+for (let i = 0; i < 3; i++) {
+  const ledGeo = new THREE.SphereGeometry(1.5, 8, 8);
+  const ledColor = [0x22c55e, 0xf59e0b, 0x3b82f6][i];
+  const ledMat = mat(ledColor, { emissive: ledColor, emissiveIntensity: 1.0 });
+  const ledMesh = new THREE.Mesh(ledGeo, ledMat);
+  ledMesh.position.set(cW / 2 - 8 - i * 8, cH - 1, cD / 2 - 6);
+  addPart(ledMesh, 'led', cH - 1);
+
+  const ledLight = new THREE.PointLight(ledColor, 0.4, 20);
+  ledLight.position.copy(ledMesh.position);
+  deckGroup.add(ledLight);
+}
+
+// Center group
+deckGroup.position.set(0, -cH, 0);
+
+// ── EXPLODE ANIMATION ────────────────────────────────────────────────────────
+let exploded = false;
+let explodeProgress = 0;
+let explodeTarget = 0;
+
+window.toggleExplode = function () {
+  exploded = !exploded;
+  explodeTarget = exploded ? 1 : 0;
+  document.getElementById('explode-btn').textContent = exploded ? 'ASSEMBLE VIEW' : 'EXPLODE VIEW';
+};
+
+const explodeOffsets = {
+  'base':          0,
+  'base_interior': 0,
+  'bumper':        -8,
+  'keyboard':      12,
+  'key':           16,
+  'trim':          0,
+  'hinge':         24,
+  'usb':           0,
+  'usb_inner':     0,
+  'hdmi':          0,
+  'sd':            0,
+  'power':         0,
+  'vent':          0,
+  'vent_inner':    0,
+  'vent_bar':      0,
+  'led':           0,
+  'lid':           50,
+  'screen_bg':     58,
+  'screen_glow':   60,
+  'trim2':         52,
+  'handle':        68,
+  'logo':          56,
+};
+
+// ── RENDER LOOP ──────────────────────────────────────────────────────────────
+const clock = new THREE.Clock();
+
+function easeInOut(t) {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  const delta = clock.getDelta();
+  const elapsed = clock.getElapsedTime();
+
+  // Explode animation
+  if (Math.abs(explodeProgress - explodeTarget) > 0.001) {
+    explodeProgress += (explodeTarget - explodeProgress) * Math.min(delta * 3, 1);
+    const t = easeInOut(Math.max(0, Math.min(1, explodeProgress)));
+    for (const mesh of parts) {
+      const name = mesh.userData.name;
+      const offset = explodeOffsets[name] ?? 0;
+      mesh.position.y = mesh.userData.baseY + offset * t - cH;
+    }
+  }
+
+  // Subtle ambient rotation when idle
+  const autoRotateSpeed = 0.015;
+  if (!controls.autoRotate) {
+    // very slow drift
+  }
+
+  // Screen glow pulse
+  screenPointLight.intensity = 0.6 + Math.sin(elapsed * 1.5) * 0.2;
+  matScreenGlow.emissiveIntensity = 0.5 + Math.sin(elapsed * 1.5) * 0.15;
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+animate();
+
+// ── RESIZE ────────────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

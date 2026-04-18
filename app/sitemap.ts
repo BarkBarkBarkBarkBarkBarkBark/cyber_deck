@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 import { products } from "@/data/products"
 
-const baseUrl = "https://cyberdeck.io"
+const baseUrl = "https://hosaka.xyz"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const productUrls = products.map((p) => ({
@@ -42,6 +42,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/demo`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/faq`,

@@ -32,7 +32,7 @@ export default function WhyUs() {
         {/* Section header */}
         <div className="max-w-xl mb-16">
           <p className="text-xs font-mono uppercase tracking-widest text-blue-400 mb-4">
-            Why CyberDeck
+            Why Hosaka
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
             Built differently, for a reason.

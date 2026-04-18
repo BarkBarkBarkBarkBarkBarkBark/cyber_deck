@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Script from "next/script"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
@@ -16,34 +17,36 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "CyberDeck — Portable Systems for Technical Work",
-    template: "%s | CyberDeck",
+    default: "Hosaka — Portable Systems for Technical Work",
+    template: "%s | Hosaka",
   },
   description:
-    "Premium preconfigured cyberdecks for developers, security researchers, and field operators. Ready to deploy out of the box.",
+    "Premium preconfigured field terminals for developers, security researchers, and field operators. Ready to deploy out of the box.",
   keywords: [
     "cyberdeck",
+    "field terminal",
     "portable computer",
     "raspberry pi",
     "field computer",
     "security research",
     "portable workstation",
     "linux deck",
+    "hosaka",
   ],
   openGraph: {
-    title: "CyberDeck — Portable Systems for Technical Work",
+    title: "Hosaka — Portable Systems for Technical Work",
     description:
-      "Preconfigured cyberdecks for developers, security researchers, and field operators.",
-    url: "https://cyberdeck.io",
-    siteName: "CyberDeck",
+      "Preconfigured field terminals for developers, security researchers, and field operators.",
+    url: "https://hosaka.xyz",
+    siteName: "Hosaka",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "CyberDeck — Portable Systems for Technical Work",
+    title: "Hosaka — Portable Systems for Technical Work",
     description:
-      "Preconfigured cyberdecks for developers, security researchers, and field operators.",
+      "Preconfigured field terminals for developers, security researchers, and field operators.",
   },
   robots: {
     index: true,
@@ -65,6 +68,10 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <Script
+          src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   )

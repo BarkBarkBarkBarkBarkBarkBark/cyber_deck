@@ -5,7 +5,7 @@ import ContactForm from "./ContactForm"
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with CyberDeck. Product questions, custom build inquiries, bulk orders, and press.",
+    "Get in touch with Hosaka. Product questions, custom build inquiries, bulk orders, and press.",
 }
 
 export default function ContactPage() {
@@ -38,7 +38,7 @@ export default function ContactPage() {
                     Email
                   </h3>
                   <p className="text-sm text-slate-500">
-                    hello@cyberdeck.io
+                    hello@hosaka.xyz
                   </p>
                   <p className="text-xs text-slate-600 mt-1">
                     We respond within 1–2 business days
