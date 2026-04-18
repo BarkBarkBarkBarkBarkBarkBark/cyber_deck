@@ -9,14 +9,8 @@ const storeBase =
     ? process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL.replace(/\/$/, "")
     : ""
 
-const flagshipHandle =
-  process.env.NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE?.trim() ||
-  "field-deck-lite"
-
 export default function HeroBuy() {
-  const shopProductUrl = storeBase
-    ? `${storeBase}/products/${flagshipHandle}`
-    : null
+  const shopUrl = storeBase || null
 
   const className = cn(
     "inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-200",
@@ -27,9 +21,9 @@ export default function HeroBuy() {
     "w-full sm:w-auto text-base py-4 px-8 font-semibold"
   )
 
-  if (shopProductUrl) {
+  if (shopUrl) {
     return (
-      <a href={shopProductUrl} className={className}>
+      <a href={shopUrl} className={className}>
         <ShoppingBag className="w-5 h-5 shrink-0" />
         Buy
         <ArrowRight className="w-5 h-5 shrink-0" />
