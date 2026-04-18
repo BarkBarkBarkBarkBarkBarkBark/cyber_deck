@@ -4,9 +4,11 @@
  * Set in .env:
  *   NEXT_PUBLIC_SHOPIFY_STORE_URL=https://shop.hosaka.xyz
  *
- * Optional handle overrides if Shopify URL handles differ from site slugs:
- *   NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE=field-deck-lite
- *   NEXT_PUBLIC_SHOPIFY_HANDLE_OPERATOR_DECK=operator-deck
+ * Optional overrides (defaults match shop.hosaka.xyz):
+ *   NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE=cyber-deck
+ *   NEXT_PUBLIC_SHOPIFY_HANDLE_OPERATOR_DECK=ai-cyber-deck
+ *   NEXT_PUBLIC_SHOPIFY_VARIANT_FIELD_DECK_LITE=48058999374065
+ *   NEXT_PUBLIC_SHOPIFY_VARIANT_OPERATOR_DECK=48059038761201
  */
 
 function normalizeStoreBase(): string {
@@ -26,28 +28,42 @@ export function getShopifyProductsIndexUrl(): string | null {
   return `${base}/collections/all`
 }
 
-function productHandleForSlug(slug: string): string {
+/** Shopify product handle + default variant id (preselects SKU on PDP). */
+function shopifyProductForSlug(
+  slug: string,
+): { handle: string; variantId: string | null } | null {
+  if (slug === "custom-build") return null
   if (slug === "field-deck-lite") {
-    return (
-      process.env.NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE?.trim() ||
-      "field-deck-lite"
-    )
+    return {
+      handle:
+        process.env.NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE?.trim() ||
+        "cyber-deck",
+      variantId:
+        process.env.NEXT_PUBLIC_SHOPIFY_VARIANT_FIELD_DECK_LITE?.trim() ||
+        "48058999374065",
+    }
   }
   if (slug === "operator-deck") {
-    return (
-      process.env.NEXT_PUBLIC_SHOPIFY_HANDLE_OPERATOR_DECK?.trim() ||
-      "operator-deck"
-    )
+    return {
+      handle:
+        process.env.NEXT_PUBLIC_SHOPIFY_HANDLE_OPERATOR_DECK?.trim() ||
+        "ai-cyber-deck",
+      variantId:
+        process.env.NEXT_PUBLIC_SHOPIFY_VARIANT_OPERATOR_DECK?.trim() ||
+        "48059038761201",
+    }
   }
-  return slug
+  return { handle: slug, variantId: null }
 }
 
 /**
  * Full URL to the product page on Shopify. Null for custom-build or if store URL unset.
  */
 export function getShopifyProductPageUrl(slug: string): string | null {
-  if (slug === "custom-build") return null
   const base = normalizeStoreBase()
   if (!base) return null
-  return `${base}/products/${productHandleForSlug(slug)}`
+  const spec = shopifyProductForSlug(slug)
+  if (!spec) return null
+  const q = spec.variantId ? `?variant=${spec.variantId}` : ""
+  return `${base}/products/${spec.handle}${q}`
 }
