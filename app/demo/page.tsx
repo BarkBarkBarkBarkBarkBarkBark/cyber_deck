@@ -25,7 +25,10 @@ export default function DemoPage() {
             <p className="text-slate-400 text-sm leading-relaxed max-w-xl">
               Every deck ships with the Hosaka shell environment. Try it here —
               type <code className="text-blue-400 font-mono">/help</code> to get
-              started.
+              started, <code className="text-blue-400 font-mono">/lore</code> for
+              recovered fragments,{" "}
+              <code className="text-blue-400 font-mono">/signal</code> when you
+              want to hear the line is clean.
             </p>
           </div>
           <Link

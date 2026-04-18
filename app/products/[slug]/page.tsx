@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
 import { Terminal, ArrowLeft, Check } from "lucide-react"
 import {
@@ -10,11 +10,10 @@ import {
 import { formatPrice } from "@/lib/utils"
 import Badge from "@/components/ui/Badge"
 import Button from "@/components/ui/Button"
-import ShopifyBuyButton from "@/components/product/ShopifyBuyButton"
 import ProductCard from "@/components/product/ProductCard"
 import ProductSpecs from "@/components/product/ProductSpecs"
 import Accordion from "@/components/ui/Accordion"
-import { getShopifyProductId } from "@/lib/shopify"
+import { getShopifyProductPageUrl } from "@/lib/shopify"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -68,13 +67,14 @@ export default async function ProductDetailPage({ params }: Props) {
 
   if (!product) notFound()
 
+  const shopUrl = getShopifyProductPageUrl(slug)
+  if (shopUrl) redirect(shopUrl)
+
   const related = getRelatedProducts(slug)
   const isCustom = product.startingPrice === null
-  const shopifyProductId = getShopifyProductId(slug)
 
   return (
     <div className="bg-slate-950 min-h-screen pt-24">
-      {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
         <Link
           href="/products"
@@ -85,10 +85,8 @@ export default async function ProductDetailPage({ params }: Props) {
         </Link>
       </div>
 
-      {/* Product hero */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Gallery placeholder */}
           <div className="sticky top-24">
             <div className="aspect-square rounded-2xl border border-slate-800 bg-slate-900/60 flex flex-col items-center justify-center gap-3 text-slate-700">
               <Terminal className="w-12 h-12" />
@@ -98,9 +96,7 @@ export default async function ProductDetailPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Info panel */}
           <div>
-            {/* Badges */}
             <div className="flex items-center gap-2 mb-5">
               {product.preorderOnly && (
                 <Badge variant="accent">Preorder Only</Badge>
@@ -110,7 +106,6 @@ export default async function ProductDetailPage({ params }: Props) {
               )}
             </div>
 
-            {/* Name */}
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-100 tracking-tight mb-2">
               {product.name}
             </h1>
@@ -118,17 +113,14 @@ export default async function ProductDetailPage({ params }: Props) {
               {product.tagline}
             </p>
 
-            {/* Price */}
             <p className="text-2xl font-bold text-slate-100 font-mono mb-6">
               {isCustom ? "Custom pricing" : `From ${formatPrice(product.startingPrice)}`}
             </p>
 
-            {/* Description */}
             <p className="text-slate-400 leading-relaxed mb-8">
               {product.shortDescription}
             </p>
 
-            {/* Key features */}
             <ul className="space-y-2 mb-8">
               {product.features.map((feature) => (
                 <li
@@ -141,49 +133,57 @@ export default async function ProductDetailPage({ params }: Props) {
               ))}
             </ul>
 
-            {/* CTAs */}
             <div className="flex flex-col gap-3">
               {isCustom ? (
-                <Button href="/contact" size="lg">
-                  Request a Consultation
-                </Button>
-              ) : shopifyProductId ? (
-                <ShopifyBuyButton
-                  productId={shopifyProductId}
-                  label="Order Now — Secure Checkout"
-                />
+                <>
+                  <Button href="/contact" size="lg">
+                    Request a Consultation
+                  </Button>
+                  <Button
+                    href="/contact"
+                    size="lg"
+                    variant="secondary"
+                    className="w-full"
+                  >
+                    Ask a Question
+                  </Button>
+                </>
               ) : (
-                <Button href="/preorder" size="lg">
-                  Join Preorder List
-                </Button>
+                <>
+                  <p className="text-sm text-slate-500 mb-1">
+                    Set{" "}
+                    <code className="text-slate-400 font-mono text-xs">
+                      NEXT_PUBLIC_SHOPIFY_STORE_URL
+                    </code>{" "}
+                    to send buyers to your Shopify product page. Until then,
+                    use preorder or contact.
+                  </p>
+                  <Button href="/preorder" size="lg">
+                    Join Preorder List
+                  </Button>
+                  <Button
+                    href="/contact"
+                    size="lg"
+                    variant="secondary"
+                    className="w-full"
+                  >
+                    Ask a Question
+                  </Button>
+                </>
               )}
-              <Button
-                href="/contact"
-                size="lg"
-                variant="secondary"
-                className="w-full"
-              >
-                Ask a Question
-              </Button>
             </div>
 
             <p className="mt-4 text-xs text-slate-600 font-mono">
               90-day hardware warranty · Ships in 4–6 weeks · Open hardware
             </p>
-            <p className="mt-1 text-xs text-slate-700 font-mono">
-              Secure checkout via Shopify · SSL encrypted
-            </p>
           </div>
         </div>
       </div>
 
-      {/* Divider */}
       <div className="border-t border-slate-800/60 mt-8" />
 
-      {/* Specs + overview */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Specs */}
           <div>
             <h2 className="text-xl font-bold text-slate-100 mb-6">
               Technical Specifications
@@ -191,7 +191,6 @@ export default async function ProductDetailPage({ params }: Props) {
             <ProductSpecs specs={product.specs} />
           </div>
 
-          {/* Overview + use cases */}
           <div>
             <h2 className="text-xl font-bold text-slate-100 mb-4">Overview</h2>
             <div className="space-y-3 text-slate-400 leading-relaxed text-sm mb-10">
@@ -218,7 +217,6 @@ export default async function ProductDetailPage({ params }: Props) {
         </div>
       </div>
 
-      {/* FAQ */}
       <div className="border-t border-slate-800/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <h2 className="text-2xl font-bold text-slate-100 mb-3">
@@ -247,7 +245,6 @@ export default async function ProductDetailPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Related products */}
       {related.length > 0 && (
         <div className="border-t border-slate-800/60">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">

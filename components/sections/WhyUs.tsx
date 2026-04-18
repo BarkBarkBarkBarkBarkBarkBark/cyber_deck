@@ -37,6 +37,10 @@ export default function WhyUs() {
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
             Built differently, for a reason.
           </h2>
+          <p className="text-sm text-slate-600 font-mono mt-4 leading-relaxed">
+            This page stays shallow on purpose. The deep end is one command
+            away—no wrong way to read it.
+          </p>
         </div>
 
         {/* Grid */}

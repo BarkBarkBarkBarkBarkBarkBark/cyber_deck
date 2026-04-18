@@ -59,9 +59,13 @@ DNS propagation is usually instant but can take up to 48 hours.
 Set these in Vercel project settings → Environment Variables:
 
 ```
-NEXT_PUBLIC_SHOPIFY_DOMAIN=your-store.myshopify.com
-NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN=your-storefront-access-token
-NEXT_PUBLIC_SHOPIFY_PRODUCT_FIELD_DECK_LITE=<shopify-product-id>
-NEXT_PUBLIC_SHOPIFY_PRODUCT_OPERATOR_DECK=<shopify-product-id>
+NEXT_PUBLIC_SHOPIFY_STORE_URL=https://shop.hosaka.xyz
 NEXT_PUBLIC_SITE_URL=https://hosaka.xyz
+```
+
+Optional if Shopify product **handles** differ from site slugs:
+
+```
+NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE=...
+NEXT_PUBLIC_SHOPIFY_HANDLE_OPERATOR_DECK=...
 ```

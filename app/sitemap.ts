@@ -1,15 +1,18 @@
 import type { MetadataRoute } from "next"
 import { products } from "@/data/products"
+import { getShopifyProductPageUrl } from "@/lib/shopify"
 
 const baseUrl = "https://hosaka.xyz"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const productUrls = products.map((p) => ({
-    url: `${baseUrl}/products/${p.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }))
+  const productUrls = products
+    .filter((p) => !getShopifyProductPageUrl(p.slug))
+    .map((p) => ({
+      url: `${baseUrl}/products/${p.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }))
 
   return [
     {

@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { ArrowRight, ExternalLink, ShoppingBag, Terminal } from "lucide-react"
+import { ExternalLink, Terminal } from "lucide-react"
 import Button from "@/components/ui/Button"
+import HeroBuy from "@/components/sections/HeroBuy"
 import { cn } from "@/lib/utils"
 
 const TERMINAL_URL = "https://terminal.hosaka.xyz"
@@ -44,7 +45,7 @@ export default function Hero() {
             <motion.div variants={item} className="mb-6">
               <span className="inline-flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 text-slate-300 text-[11px] font-mono uppercase tracking-[0.2em] rounded-md px-3 py-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/90" />
-                Field terminal · reference interface
+                Field terminal · reference · signal steady
               </span>
             </motion.div>
 
@@ -71,7 +72,8 @@ export default function Hero() {
               className="text-sm text-slate-500 max-w-xl leading-relaxed mb-8 font-mono"
             >
               // Internal designation: Hosaka field kit. Public specs only.
-              Everything else ships with the box.
+              The orb in the stack listens more than it speaks—that&apos;s also
+              intentional.
             </motion.p>
 
             <motion.div
@@ -92,18 +94,7 @@ export default function Hero() {
                 <Terminal className="w-5 h-5 shrink-0" />
                 Try the terminal
               </Button>
-              <Button
-                href="/products"
-                size="lg"
-                className={cn(
-                  "w-full sm:w-auto justify-center text-base py-4 px-8",
-                  "font-semibold shadow-xl shadow-blue-950/30"
-                )}
-              >
-                <ShoppingBag className="w-5 h-5 shrink-0" />
-                Buy
-                <ArrowRight className="w-5 h-5 shrink-0" />
-              </Button>
+              <HeroBuy />
             </motion.div>
 
             <motion.div
@@ -139,7 +130,7 @@ export default function Hero() {
                 </div>
                 <div className="flex-1 min-w-0 flex items-center justify-center px-2">
                   <span className="text-[11px] font-mono text-slate-500 truncate">
-                    terminal.hosaka.xyz — live
+                    terminal.hosaka.xyz — live · listening
                   </span>
                 </div>
                 <Link
@@ -170,6 +161,12 @@ export default function Hero() {
               >
                 fullscreen
               </Link>
+              <span className="text-slate-700"> · </span>
+              <span className="text-slate-600">
+                in the shell:{" "}
+                <code className="text-slate-500">/lore</code> for fragments,{" "}
+                <code className="text-slate-500">/signal</code> for the line
+              </span>
             </p>
           </motion.div>
         </div>

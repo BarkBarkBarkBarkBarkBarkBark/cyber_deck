@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Script from "next/script"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
@@ -68,10 +67,6 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-        <Script
-          src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   )

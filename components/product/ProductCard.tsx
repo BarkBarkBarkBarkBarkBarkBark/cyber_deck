@@ -3,6 +3,7 @@ import { ArrowRight, Terminal } from "lucide-react"
 import { type Product } from "@/data/products"
 import { formatPrice } from "@/lib/utils"
 import Badge from "@/components/ui/Badge"
+import { getShopifyProductPageUrl } from "@/lib/shopify"
 
 interface ProductCardProps {
   product: Product
@@ -14,6 +15,14 @@ export default function ProductCard({
   featured = false,
 }: ProductCardProps) {
   const isCustom = product.startingPrice === null
+  const shopUrl = getShopifyProductPageUrl(product.slug)
+  const detailHref = shopUrl ?? `/products/${product.slug}`
+  const isExternal = Boolean(shopUrl)
+
+  const ctaLabel = shopUrl ? "View on Shopify" : "View details"
+
+  const linkClassName =
+    "inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border border-slate-700 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:border-slate-600 hover:text-slate-100 transition-all duration-200"
 
   return (
     <div
@@ -23,10 +32,8 @@ export default function ProductCard({
           : "border-slate-800 bg-slate-900/40 hover:border-slate-700"
         }`}
     >
-      {/* Subtle top accent line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
 
-      {/* Image placeholder */}
       <div className="relative h-48 bg-slate-950/60 border-b border-slate-800/60 flex items-center justify-center">
         <div className="flex flex-col items-center gap-2 text-slate-700">
           <Terminal className="w-8 h-8" />
@@ -46,14 +53,11 @@ export default function ProductCard({
         )}
       </div>
 
-      {/* Content */}
       <div className="flex flex-col flex-1 p-6">
-        {/* Price */}
         <p className="text-xs font-mono text-slate-500 mb-2">
           {isCustom ? "Custom pricing" : `From ${formatPrice(product.startingPrice)}`}
         </p>
 
-        {/* Name + tagline */}
         <h3 className="text-lg font-semibold text-slate-100 mb-1 group-hover:text-blue-300 transition-colors">
           {product.name}
         </h3>
@@ -64,7 +68,6 @@ export default function ProductCard({
           {product.shortDescription}
         </p>
 
-        {/* Key specs */}
         <ul className="space-y-1.5 mb-6">
           {product.specs.slice(0, 4).map((spec) => (
             <li
@@ -77,14 +80,17 @@ export default function ProductCard({
           ))}
         </ul>
 
-        {/* CTA */}
-        <Link
-          href={`/products/${product.slug}`}
-          className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border border-slate-700 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:border-slate-600 hover:text-slate-100 transition-all duration-200"
-        >
-          View Details
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        {isExternal ? (
+          <a href={detailHref} className={linkClassName}>
+            {ctaLabel}
+            <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        ) : (
+          <Link href={detailHref} className={linkClassName}>
+            {ctaLabel}
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        )}
       </div>
     </div>
   )

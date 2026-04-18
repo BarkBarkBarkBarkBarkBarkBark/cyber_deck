@@ -1,70 +1,51 @@
-# Shopify + TikTok Shop Setup
+# Shopify storefront (product pages + checkout)
 
-## 1. Create a Shopify Store
+The marketing site (hosaka.xyz) links **out** to your **Shopify Online Store** for catalog, product detail, cart, and checkout. You maintain products only in Shopify.
 
-1. Go to [shopify.com](https://www.shopify.com) and create a store
-2. The **Starter plan** ($5/mo) is sufficient for Buy Button usage
-3. Note your store domain: `your-store.myshopify.com`
+## 1. Store URL
 
-## 2. Add Products
+In `.env` / Vercel:
 
-Create these three products in Shopify Admin → Products:
-
-| Product | Price | Status |
-|---------|-------|--------|
-| Field Deck Lite | $349.00 | Draft (or Active when ready) |
-| Operator Deck | $699.00 | Draft (or Active when ready) |
-| Custom Build Program | N/A | Not needed (uses contact form) |
-
-After creating each product, note the **product ID** from the admin URL:
-`https://admin.shopify.com/store/your-store/products/PRODUCT_ID`
-
-## 3. Enable Buy Button Sales Channel
-
-1. Shopify Admin → Settings → Apps and sales channels
-2. Click "Shopify App Store" → search "Buy Button"
-3. Install the **Buy Button channel**
-4. This enables the Storefront API access needed by the site
-
-## 4. Get Storefront Access Token
-
-1. Shopify Admin → Settings → Apps and sales channels → Develop apps
-2. Click "Create an app" → name it "hosaka-web"
-3. Configure Storefront API scopes:
-   - `unauthenticated_read_products`
-   - `unauthenticated_write_checkouts`
-   - `unauthenticated_read_checkouts`
-4. Install the app → copy the **Storefront access token**
-
-## 5. Set Environment Variables
-
-In Vercel (or `.env.local` for dev):
-
-```
-NEXT_PUBLIC_SHOPIFY_DOMAIN=your-store.myshopify.com
-NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN=your-storefront-access-token
-NEXT_PUBLIC_SHOPIFY_PRODUCT_FIELD_DECK_LITE=1234567890
-NEXT_PUBLIC_SHOPIFY_PRODUCT_OPERATOR_DECK=1234567891
+```env
+NEXT_PUBLIC_SHOPIFY_STORE_URL=https://shop.hosaka.xyz
 ```
 
-## 6. TikTok Shop Integration
+Use your real **customer-facing** shop URL (custom domain or `https://your-store.myshopify.com`). No trailing slash.
 
-1. Shopify Admin → Sales Channels → click the **+** button
-2. Search for and install **TikTok**
-3. Connect your **TikTok for Business** account
-4. Sync your product catalog (Field Deck Lite, Operator Deck)
-5. Enable TikTok Shopping features:
-   - Product links in videos
-   - TikTok Shop tab on your profile
-   - Live shopping (optional)
+**Separate:** Storefront API / admin still use `*.myshopify.com` if you add headless features later; this variable is only for **browser links** to the Online Store.
 
-TikTok Shop and the Buy Buttons on hosaka.xyz share the same
-Shopify inventory and order management — one dashboard for everything.
+## 2. Product handles
 
-## Testing
+Paths are built as:
 
-Before going live:
-1. Use Shopify's test mode (Bogus Gateway) to verify checkout flow
-2. Confirm Buy Buttons render on product pages
-3. Verify TikTok product sync in Shopify admin
-4. Place a test order through both channels
+`{NEXT_PUBLIC_SHOPIFY_STORE_URL}/products/{handle}`
+
+By default, handles match this site’s slugs:
+
+| Site slug           | Shopify product URL (default handle)   |
+|---------------------|----------------------------------------|
+| `field-deck-lite`   | `/products/field-deck-lite`            |
+| `operator-deck`     | `/products/operator-deck`              |
+| `custom-build`      | Stays on hosaka.xyz (`/products/custom-build`) |
+
+If your Shopify handles differ, set:
+
+```env
+NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE=your-shopify-handle
+NEXT_PUBLIC_SHOPIFY_HANDLE_OPERATOR_DECK=your-shopify-handle
+```
+
+## 3. What changes on the site
+
+- **Hero “Buy”** → flagship product on Shopify (`field-deck-lite` handle by default).
+- **Navbar “Products”** → `…/collections/all` when store URL is set.
+- **Product cards / footer** → Shopify product URLs for the two decks; custom build stays local.
+- **`/products/field-deck-lite` and `/products/operator-deck`** → **307 redirect** to Shopify when `NEXT_PUBLIC_SHOPIFY_STORE_URL` is set.
+
+## 4. TikTok Shop
+
+Still configured in **Shopify admin → Sales channels → TikTok**. Same catalog as the Online Store.
+
+## 5. Optional: Storefront API app
+
+You only need a **custom app + Storefront token** if you add headless cart/checkout again. For “everything on Shopify,” **store URL + handles** are enough.

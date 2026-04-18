@@ -65,6 +65,10 @@ export default function AboutPage() {
             Not for the maker bench. Not for the gaming desk. For the field —
             wherever your field happens to be.
           </p>
+          <p className="text-sm text-slate-600 font-mono mt-6 max-w-xl leading-relaxed">
+            The fiction has a name some people call the ghost notation. The
+            product is just the kit—signal steady, paperwork boring.
+          </p>
         </div>
       </div>
 

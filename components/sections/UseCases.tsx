@@ -62,6 +62,10 @@ export default function UseCases() {
             Our decks are designed around real professional workflows — not
             hypothetical feature lists.
           </p>
+          <p className="text-slate-600 text-xs font-mono mt-3 leading-relaxed">
+            Codenames welcome. The lattice doesn&apos;t need to know your
+            project title—only that the signal held when it mattered.
+          </p>
         </div>
 
         {/* Grid */}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { products } from "@/data/products"
 import ProductCard from "@/components/product/ProductCard"
+import { getShopifyStoreBaseUrl } from "@/lib/shopify"
 
 export const metadata: Metadata = {
   title: "Products",
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
 }
 
 export default function ProductsPage() {
+  const shop = getShopifyStoreBaseUrl()
+
   return (
     <div className="bg-slate-950 min-h-screen pt-24">
       {/* Header */}
@@ -24,6 +27,18 @@ export default function ProductsPage() {
           configuration that matches your use case and budget — or work with us
           on something custom.
         </p>
+        {shop ? (
+          <p className="text-slate-600 text-sm font-mono mt-4 max-w-2xl leading-relaxed">
+            Full specs, photos, and checkout live on the{" "}
+            <a
+              href={`${shop}/collections/all`}
+              className="text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              Shopify storefront
+            </a>
+            . Cards below link there for Field Deck Lite and Operator Deck.
+          </p>
+        ) : null}
       </div>
 
       {/* Product grid */}

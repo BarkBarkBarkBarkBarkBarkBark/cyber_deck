@@ -21,9 +21,13 @@ export default function LeadCaptureCTA() {
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight mb-4">
               Be first in line.
             </h2>
-            <p className="text-slate-400 leading-relaxed mb-8">
+            <p className="text-slate-400 leading-relaxed mb-3">
               Join the preorder list. Get early access pricing, product updates,
               and first allocation when we launch.
+            </p>
+            <p className="text-slate-600 text-xs font-mono mb-8 leading-relaxed">
+              We don&apos;t shout across the deep signal—just launch notes and
+              allocation when there&apos;s something worth sending.
             </p>
 
             {state.success ? (

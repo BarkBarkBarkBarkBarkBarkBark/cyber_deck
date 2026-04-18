@@ -25,6 +25,10 @@ export default function ValueProp() {
   return (
     <section className="py-24 bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p className="text-center text-[11px] sm:text-xs font-mono text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+          Specs below are the boring truth. The rest is optional fiction—typed
+          one fragment at a time in the field terminal.
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {values.map(({ icon: Icon, title, description }) => (
             <div
