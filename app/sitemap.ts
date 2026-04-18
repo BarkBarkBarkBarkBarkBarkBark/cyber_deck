@@ -1,19 +1,8 @@
 import type { MetadataRoute } from "next"
-import { products } from "@/data/products"
-import { getShopifyProductPageUrl } from "@/lib/shopify"
 
 const baseUrl = "https://hosaka.xyz"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const productUrls = products
-    .filter((p) => !getShopifyProductPageUrl(p.slug))
-    .map((p) => ({
-      url: `${baseUrl}/products/${p.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    }))
-
   return [
     {
       url: baseUrl,
@@ -22,53 +11,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${baseUrl}/products`,
+      url: `${baseUrl}/demo`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/specs`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
-    ...productUrls,
     {
-      url: `${baseUrl}/about`,
+      url: `${baseUrl}/lore`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/preorder`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/demo`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/faq`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
     },
   ]
 }

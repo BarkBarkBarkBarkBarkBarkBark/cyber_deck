@@ -43,7 +43,7 @@ export default function DemoPage() {
         </div>
       </div>
 
-      <div className="flex-1 px-4 sm:px-6 lg:px-8 pb-6 max-w-7xl mx-auto w-full min-h-0">
+      <div className="flex-1 px-4 sm:px-6 lg:px-8 pb-10 max-w-7xl mx-auto w-full min-h-0">
         <div className="w-full h-full min-h-[60vh] lg:min-h-[70vh] rounded-xl border border-slate-800 overflow-hidden bg-slate-900/40">
           <iframe
             src={TERMINAL_URL}
@@ -53,6 +53,14 @@ export default function DemoPage() {
             sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
           />
         </div>
+        <p className="mt-4 text-center">
+          <Link
+            href="/"
+            className="text-xs text-slate-600 hover:text-slate-400 font-mono"
+          >
+            ← Home
+          </Link>
+        </p>
       </div>
     </div>
   )

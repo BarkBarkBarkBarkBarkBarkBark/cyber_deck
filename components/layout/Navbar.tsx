@@ -5,7 +5,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, Terminal } from "lucide-react"
 import { cn } from "@/lib/utils"
-import Button from "@/components/ui/Button"
 
 function NavItem({
   href,
@@ -43,15 +42,13 @@ export default function Navbar() {
   const navLinks = useMemo(() => {
     const storeRaw = process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL?.trim() ?? ""
     const storeBase = storeRaw.replace(/\/$/, "")
-    const productsHref = storeBase
-      ? `${storeBase}/collections/all`
-      : "/products"
+    const shopHref = storeBase ? `${storeBase}/collections/all` : null
+
     return [
-      { href: productsHref, label: "Products" },
       { href: "/demo", label: "Demo" },
-      { href: "/about", label: "About" },
-      { href: "/faq", label: "FAQ" },
-      { href: "/contact", label: "Contact" },
+      { href: "/specs", label: "Specs" },
+      { href: "/lore", label: "Lore" },
+      ...(shopHref ? [{ href: shopHref, label: "Shop" }] : []),
     ]
   }, [])
 
@@ -66,10 +63,8 @@ export default function Navbar() {
   }, [pathname])
 
   function linkActive(href: string): boolean {
-    if (href.startsWith("http")) {
-      return false
-    }
-    return pathname.startsWith(href)
+    if (href.startsWith("http")) return false
+    return pathname === href || pathname.startsWith(`${href}/`)
   }
 
   return (
@@ -93,19 +88,13 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-7">
             {navLinks.map((link) => (
               <NavItem
-                key={link.href}
+                key={`${link.href}-${link.label}`}
                 href={link.href}
                 label={link.label}
                 active={linkActive(link.href)}
               />
             ))}
           </nav>
-
-          <div className="hidden md:flex items-center">
-            <Button href="/preorder" size="sm">
-              Preorder
-            </Button>
-          </div>
 
           <button
             className="md:hidden p-2 -mr-2 text-slate-400 hover:text-slate-100 transition-colors rounded-lg hover:bg-slate-800/50"
@@ -124,25 +113,22 @@ export default function Navbar() {
       <div
         className={cn(
           "md:hidden border-t border-slate-800/60 bg-slate-950/95 backdrop-blur-md overflow-hidden transition-all duration-300",
-          isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-[320px] opacity-100" : "max-h-0 opacity-0"
         )}
       >
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col gap-1">
           {navLinks.map((link) =>
             link.href.startsWith("http") ? (
               <a
-                key={link.href}
+                key={`${link.href}-${link.label}`}
                 href={link.href}
-                className={cn(
-                  "text-sm font-medium py-2.5 px-3 rounded-lg transition-colors hover:bg-slate-800/60 hover:text-slate-100",
-                  "text-slate-400"
-                )}
+                className="text-sm font-medium py-2.5 px-3 rounded-lg text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors"
               >
                 {link.label}
               </a>
             ) : (
               <Link
-                key={link.href}
+                key={`${link.href}-${link.label}`}
                 href={link.href}
                 className={cn(
                   "text-sm font-medium py-2.5 px-3 rounded-lg transition-colors hover:bg-slate-800/60 hover:text-slate-100",
@@ -155,11 +141,6 @@ export default function Navbar() {
               </Link>
             )
           )}
-          <div className="pt-3 border-t border-slate-800/60 mt-2">
-            <Button href="/preorder" className="w-full justify-center">
-              Preorder
-            </Button>
-          </div>
         </div>
       </div>
     </header>

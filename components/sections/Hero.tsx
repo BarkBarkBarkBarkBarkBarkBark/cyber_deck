@@ -5,9 +5,14 @@ import Link from "next/link"
 import { ExternalLink, Terminal } from "lucide-react"
 import Button from "@/components/ui/Button"
 import HeroBuy from "@/components/sections/HeroBuy"
+import OrbLorePortal from "@/components/OrbLorePortal"
 import { cn } from "@/lib/utils"
 
 const TERMINAL_URL = "https://terminal.hosaka.xyz"
+
+const shopLive =
+  typeof process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL === "string" &&
+  process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL.trim().length > 0
 
 const container = {
   hidden: { opacity: 0 },
@@ -49,6 +54,18 @@ export default function Hero() {
               </span>
             </motion.div>
 
+            <motion.p
+              variants={item}
+              className={cn(
+                "text-[11px] font-mono uppercase tracking-widest mb-5",
+                shopLive ? "text-emerald-400/90" : "text-amber-400/85"
+              )}
+            >
+              {shopLive
+                ? "Shop live — purchase on Shopify"
+                : "Shop pending — specs are authoritative until storefront URL is set"}
+            </motion.p>
+
             <motion.h1
               variants={item}
               className="text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-6xl font-bold tracking-tight text-slate-100 leading-[1.08] mb-5"
@@ -69,7 +86,7 @@ export default function Hero() {
 
             <motion.p
               variants={item}
-              className="text-sm text-slate-500 max-w-xl leading-relaxed mb-8 font-mono"
+              className="text-sm text-slate-500 max-w-xl leading-relaxed mb-6 font-mono"
             >
               // Internal designation: Hosaka field kit. Public specs only.
               The orb in the stack listens more than it speaks—that&apos;s also
@@ -78,7 +95,7 @@ export default function Hero() {
 
             <motion.div
               variants={item}
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4"
             >
               <Button
                 href="#field-terminal"
@@ -95,6 +112,25 @@ export default function Hero() {
                 Try the terminal
               </Button>
               <HeroBuy />
+            </motion.div>
+
+            <motion.div
+              variants={item}
+              className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 mb-10 items-stretch sm:items-center"
+            >
+              <OrbLorePortal />
+              <Link
+                href="/specs"
+                className="inline-flex items-center justify-center text-sm font-mono text-slate-500 hover:text-slate-200 border border-slate-800 rounded-lg px-4 py-3 hover:border-slate-600 transition-colors"
+              >
+                Specs
+              </Link>
+              <Link
+                href="/lore"
+                className="inline-flex items-center justify-center text-sm font-mono text-slate-500 hover:text-violet-300 border border-slate-800 rounded-lg px-4 py-3 hover:border-violet-500/30 transition-colors"
+              >
+                Lore
+              </Link>
             </motion.div>
 
             <motion.div
@@ -163,9 +199,9 @@ export default function Hero() {
               </Link>
               <span className="text-slate-700"> · </span>
               <span className="text-slate-600">
-                in the shell:{" "}
-                <code className="text-slate-500">/lore</code> for fragments,{" "}
-                <code className="text-slate-500">/signal</code> for the line
+                shell:{" "}
+                <code className="text-slate-500">/lore</code>,{" "}
+                <code className="text-slate-500">/signal</code>
               </span>
             </p>
           </motion.div>

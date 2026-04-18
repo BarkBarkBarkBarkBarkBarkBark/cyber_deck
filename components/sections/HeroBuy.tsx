@@ -13,10 +13,6 @@ const flagshipHandle =
   process.env.NEXT_PUBLIC_SHOPIFY_HANDLE_FIELD_DECK_LITE?.trim() ||
   "field-deck-lite"
 
-/**
- * Buy → flagship product on Shopify when storefront URL is configured.
- * Otherwise fall back to local /products hub.
- */
 export default function HeroBuy() {
   const shopProductUrl = storeBase
     ? `${storeBase}/products/${flagshipHandle}`
@@ -42,9 +38,9 @@ export default function HeroBuy() {
   }
 
   return (
-    <Link href="/products" className={className}>
+    <Link href="/specs" className={className}>
       <ShoppingBag className="w-5 h-5 shrink-0" />
-      Buy
+      Specs & availability
       <ArrowRight className="w-5 h-5 shrink-0" />
     </Link>
   )
