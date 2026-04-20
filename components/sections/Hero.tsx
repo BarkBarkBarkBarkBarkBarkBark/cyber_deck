@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ExternalLink, Terminal } from "lucide-react"
+import { ArrowRight, Terminal } from "lucide-react"
 import Button from "@/components/ui/Button"
 import GalleryGrid from "@/components/gallery/GalleryGrid"
 import { galleryItems } from "@/data/galleryItems"
@@ -63,14 +63,6 @@ const benefits = [
     title: "5G-ready mobility",
     copy: "Pair with mobile uplinks to keep shipping, debugging, and collaborating from almost anywhere.",
   },
-]
-
-const shellPreview = [
-  "$ hosaka status",
-  "profile: operator-field",
-  "network: uplink stable",
-  "workspace: local+remote ready",
-  "docs: /manual /runbooks",
 ]
 
 const integrations = [
@@ -136,6 +128,10 @@ export default function Hero() {
                 {primaryText}
                 <ArrowRight className="h-4 w-4" />
               </Button>
+              <Button href="/demo" size="lg" className="w-full sm:w-auto">
+                Try console
+                <ArrowRight className="h-4 w-4" />
+              </Button>
               <Button
                 href="/gallery"
                 variant="secondary"
@@ -157,38 +153,6 @@ export default function Hero() {
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-            </div>
-            <div className="mt-4 rounded-xl border border-slate-800 bg-slate-950/80">
-              <div className="flex items-center gap-2 border-b border-slate-800 px-3 py-2.5">
-                <div className="flex gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
-                </div>
-                <p className="truncate text-[11px] font-mono text-slate-500">
-                  Terminal workflow preview
-                </p>
-              </div>
-              <div className="space-y-1.5 px-3 py-3 text-xs font-mono text-slate-300 sm:text-sm">
-                {shellPreview.map((line) => (
-                  <p key={line} className="break-all">
-                    {line}
-                  </p>
-                ))}
-              </div>
-              <div className="flex flex-col gap-2 border-t border-slate-800 px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs text-slate-500">
-                  Lightweight preview on homepage. Full terminal lives on its
-                  own page.
-                </p>
-                <Link
-                  href="/demo"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-400 transition-colors hover:text-blue-300"
-                >
-                  Open full terminal
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </Link>
-              </div>
             </div>
           </div>
         </div>
