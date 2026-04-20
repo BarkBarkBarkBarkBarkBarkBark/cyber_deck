@@ -129,7 +129,7 @@ export default function Hero() {
                 <ArrowRight className="h-4 w-4" />
               </Button>
               <Button href="/demo" size="lg" className="w-full sm:w-auto">
-                Try console
+                Try Console
                 <ArrowRight className="h-4 w-4" />
               </Button>
               <Button
