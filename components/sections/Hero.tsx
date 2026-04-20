@@ -1,10 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ExternalLink, Terminal } from "lucide-react"
+import { ArrowRight, Terminal } from "lucide-react"
 import Button from "@/components/ui/Button"
 import GalleryGrid from "@/components/gallery/GalleryGrid"
 import { galleryItems } from "@/data/galleryItems"
-import { loreFragments } from "@/data/loreFragments"
 import { products } from "@/data/products"
 import { getShopifyProductsIndexUrl } from "@/lib/shopify"
 
@@ -75,7 +74,6 @@ export default function Hero() {
   const primaryText = shopUrl ? "Shop Hosaka Console" : "Explore models"
   const deck =
     products.find((product) => product.slug === "field-deck-lite") ?? products[0]
-  const loreCards = loreFragments.slice(0, 3)
 
   return (
     <div className="bg-slate-950">
@@ -105,6 +103,14 @@ export default function Hero() {
               <Button href={primaryHref} size="lg" className="w-full sm:w-auto">
                 {primaryText}
                 <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button
+                href="/demo"
+                size="lg"
+                className="w-full sm:w-auto ring-2 ring-blue-400/60 shadow-blue-600/40"
+              >
+                <Terminal className="h-4 w-4" />
+                Try the terminal
               </Button>
               <Button
                 href="/gallery"
@@ -148,16 +154,13 @@ export default function Hero() {
               </div>
               <div className="flex flex-col gap-2 border-t border-slate-800 px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs text-slate-500">
-                  Lightweight preview on homepage. Full terminal lives on its
-                  own page.
+                  Launch the full terminal experience to test shell workflows in
+                  the browser.
                 </p>
-                <Link
-                  href="/demo"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-400 transition-colors hover:text-blue-300"
-                >
-                  Open full terminal
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </Link>
+                <Button href="/demo" size="sm" className="w-full sm:w-auto">
+                  Try the terminal
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
               </div>
             </div>
           </div>
@@ -193,51 +196,18 @@ export default function Hero() {
 
       <section className="border-b border-slate-800/60">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-            <div className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-5 sm:p-6">
-              <h2 className="text-2xl font-semibold tracking-tight text-slate-100 sm:text-3xl">
-                What is Hosaka Console?
-              </h2>
-              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-400 sm:text-base">
-                {hosakaHighlights.map((line) => (
-                  <li key={line} className="flex gap-2">
-                    <span className="mt-1 text-blue-400">•</span>
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-5 sm:p-6">
-              <h3 className="text-lg font-semibold text-slate-100">
-                Signal notes
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                Brand voice, now readable: lore is presented as content cards so
-                it does not collapse into clipped terminal panes on mobile.
-              </p>
-              <div className="mt-4 grid grid-cols-1 gap-3">
-                {loreCards.map((lines, index) => (
-                  <article
-                    key={`lore-${index}`}
-                    className="rounded-lg border border-slate-800 bg-slate-950/70 px-3 py-3"
-                  >
-                    <p className="mb-2 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-600">
-                      fragment {index + 1}
-                    </p>
-                    <p className="text-sm leading-relaxed text-slate-300">
-                      {lines.filter(Boolean).slice(0, 2).join(" ")}
-                    </p>
-                  </article>
-                ))}
-              </div>
-              <Link
-                href="/lore"
-                className="mt-4 inline-flex text-sm font-medium text-blue-400 transition-colors hover:text-blue-300"
-              >
-                Read all lore fragments →
-              </Link>
-            </div>
+          <div className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-5 sm:p-6">
+            <h2 className="text-2xl font-semibold tracking-tight text-slate-100 sm:text-3xl">
+              Why Hosaka Console
+            </h2>
+            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-400 sm:text-base">
+              {hosakaHighlights.map((line) => (
+                <li key={line} className="flex gap-2">
+                  <span className="mt-1 text-blue-400">•</span>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
