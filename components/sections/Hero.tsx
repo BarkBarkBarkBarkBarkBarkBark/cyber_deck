@@ -73,7 +73,8 @@ export default function Hero() {
   const shopUrl = getShopifyProductsIndexUrl()
   const primaryHref = shopUrl ?? "/specs"
   const primaryText = shopUrl ? "Shop Hosaka Console" : "Explore models"
-  const deck = products.find((product) => product.slug === "field-deck-lite")
+  const deck =
+    products.find((product) => product.slug === "field-deck-lite") ?? products[0]
   const loreCards = loreFragments.slice(0, 3)
 
   return (
@@ -354,7 +355,7 @@ export default function Hero() {
                 Request build
               </Button>
               <Button href="/gallery" variant="ghost" size="lg" className="w-full sm:w-auto border border-slate-700 text-slate-300 hover:text-slate-100">
-                Explore models
+                View gallery
               </Button>
             </div>
           </div>
