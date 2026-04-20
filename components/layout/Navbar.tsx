@@ -45,9 +45,9 @@ export default function Navbar() {
     const shopHref = storeBase ? `${storeBase}/collections/all` : null
 
     return [
-      { href: "/demo", label: "Demo" },
+      { href: "/demo", label: "Terminal" },
+      { href: "/gallery", label: "Gallery" },
       { href: "/specs", label: "Specs" },
-      { href: "/lore", label: "Lore" },
       ...(shopHref ? [{ href: shopHref, label: "Shop" }] : []),
     ]
   }, [])
@@ -57,10 +57,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
 
   function linkActive(href: string): boolean {
     if (href.startsWith("http")) return false
@@ -78,7 +74,11 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
+          <Link
+            href="/"
+            className="flex items-center gap-2 group shrink-0"
+            onClick={() => setIsOpen(false)}
+          >
             <Terminal className="w-4 h-4 text-blue-500" />
             <span className="font-mono font-bold text-slate-100 tracking-tight group-hover:text-blue-400 transition-colors text-sm uppercase">
               Hosaka
@@ -101,11 +101,7 @@ export default function Navbar() {
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle navigation menu"
           >
-            {isOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
@@ -122,6 +118,7 @@ export default function Navbar() {
               <a
                 key={`${link.href}-${link.label}`}
                 href={link.href}
+                onClick={() => setIsOpen(false)}
                 className="text-sm font-medium py-2.5 px-3 rounded-lg text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors"
               >
                 {link.label}
@@ -130,6 +127,7 @@ export default function Navbar() {
               <Link
                 key={`${link.href}-${link.label}`}
                 href={link.href}
+                onClick={() => setIsOpen(false)}
                 className={cn(
                   "text-sm font-medium py-2.5 px-3 rounded-lg transition-colors hover:bg-slate-800/60 hover:text-slate-100",
                   linkActive(link.href)
