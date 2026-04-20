@@ -59,6 +59,10 @@ const benefits = [
     title: "Local-first with remote reach",
     copy: "Run local tasks confidently while still reaching cloud, edge, and remote infrastructure when needed.",
   },
+  {
+    title: "5G-ready mobility",
+    copy: "Pair with mobile uplinks to keep shipping, debugging, and collaborating from almost anywhere.",
+  },
 ]
 
 const shellPreview = [
@@ -67,6 +71,32 @@ const shellPreview = [
   "network: uplink stable",
   "workspace: local+remote ready",
   "docs: /manual /runbooks",
+]
+
+const integrations = [
+  { name: "amazon", accent: "from-amber-500/25 to-orange-500/10" },
+  { name: "reddit", accent: "from-orange-500/25 to-rose-500/10" },
+  { name: "discord", accent: "from-indigo-500/25 to-blue-500/10" },
+  { name: "tik tok", accent: "from-cyan-500/25 to-fuchsia-500/10" },
+]
+
+const audienceValue = [
+  {
+    title: "For the dev community",
+    points: [
+      "Run local Node.js services and tooling without cloud dependency.",
+      "Spin up whichever MCP server your workflow needs for AI-assisted operations.",
+      "Ship from one portable environment that mirrors your real terminal stack.",
+    ],
+  },
+  {
+    title: "For the cyber girlies",
+    points: [
+      "A cinematic, hacker-forward setup that still works for real projects.",
+      "Write, ship, and stay connected from cafés, events, and travel days.",
+      "Learn command-line confidence with a system built to be both stylish and practical.",
+    ],
+  },
 ]
 
 export default function Hero() {
@@ -259,6 +289,100 @@ export default function Hero() {
                 <p className="mt-2 text-sm leading-relaxed text-slate-400">
                   {benefit.copy}
                 </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-800/60">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+          <p className="text-xs font-mono uppercase tracking-[0.2em] text-blue-400">
+            Integrations
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-100 sm:text-3xl">
+            Big-stack compatibility, right out of the deck
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
+            Connect to the platforms your community already uses and keep your
+            workflow moving.
+          </p>
+          <div className="mt-6 overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/35 p-4 sm:p-5">
+            <div className="integrations-marquee flex w-max items-center gap-4 pr-4">
+              {[...integrations, ...integrations].map((integration, index) => (
+                <div
+                  key={`${integration.name}-${index}`}
+                  className={`flex h-24 min-w-[15rem] items-center justify-center rounded-xl border border-slate-700/80 bg-gradient-to-br ${integration.accent} px-6`}
+                >
+                  <p className="text-3xl font-semibold uppercase tracking-[0.1em] text-slate-100 sm:text-4xl">
+                    {integration.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-800/60">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-100 sm:text-3xl">
+            Build anywhere: local Node.js + MCP + mobile 5G
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+            <article className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-4 sm:p-5">
+              <h3 className="text-base font-semibold text-slate-100">
+                Any MCP server, your way
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                Run whichever MCP servers your tools require and keep assistant
+                workflows close to your terminal.
+              </p>
+            </article>
+            <article className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-4 sm:p-5">
+              <h3 className="text-base font-semibold text-slate-100">
+                Local Node.js development
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                Prototype APIs, run scripts, and test full-stack projects
+                locally without changing machines.
+              </p>
+            </article>
+            <article className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-4 sm:p-5">
+              <h3 className="text-base font-semibold text-slate-100">
+                5G field connectivity
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                Stay online for deploys, docs, and team chat with mobile-first
+                networking when fixed internet is unavailable.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-800/60">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-100 sm:text-3xl">
+            High-value modes for every operator
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {audienceValue.map((audience) => (
+              <article
+                key={audience.title}
+                className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-5 sm:p-6"
+              >
+                <h3 className="text-lg font-semibold text-slate-100">
+                  {audience.title}
+                </h3>
+                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-400 sm:text-base">
+                  {audience.points.map((point) => (
+                    <li key={point} className="flex gap-2">
+                      <span className="mt-1 text-blue-400">•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </article>
             ))}
           </div>
