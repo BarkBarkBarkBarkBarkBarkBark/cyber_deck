@@ -198,7 +198,7 @@ export default function Hero() {
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
           <div className="rounded-xl border border-slate-800/80 bg-slate-900/35 p-5 sm:p-6">
             <h2 className="text-2xl font-semibold tracking-tight text-slate-100 sm:text-3xl">
-              Why Hosaka Console
+              Why choose Hosaka Console
             </h2>
             <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-400 sm:text-base">
               {hosakaHighlights.map((line) => (
