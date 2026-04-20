@@ -54,3 +54,22 @@ body {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
+
+@keyframes integrations-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.integrations-marquee {
+  animation: integrations-marquee 24s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .integrations-marquee {
+    animation: none;
+  }
+}
