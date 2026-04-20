@@ -77,7 +77,7 @@ const integrations = [
   { name: "amazon", accent: "from-amber-500/25 to-orange-500/10" },
   { name: "reddit", accent: "from-orange-500/25 to-rose-500/10" },
   { name: "discord", accent: "from-indigo-500/25 to-blue-500/10" },
-  { name: "tik tok", accent: "from-cyan-500/25 to-fuchsia-500/10" },
+  { name: "TikTok", accent: "from-cyan-500/25 to-fuchsia-500/10" },
 ]
 
 const audienceValue = [
@@ -309,9 +309,9 @@ export default function Hero() {
           </p>
           <div className="mt-6 overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/35 p-4 sm:p-5">
             <div className="integrations-marquee flex w-max items-center gap-4 pr-4">
-              {[...integrations, ...integrations].map((integration, index) => (
+              {[...integrations, ...integrations].map((integration, cardIndex) => (
                 <div
-                  key={`${integration.name}-${index}`}
+                  key={cardIndex}
                   className={`flex h-24 min-w-[15rem] items-center justify-center rounded-xl border border-slate-700/80 bg-gradient-to-br ${integration.accent} px-6`}
                 >
                   <p className="text-3xl font-semibold uppercase tracking-[0.1em] text-slate-100 sm:text-4xl">
