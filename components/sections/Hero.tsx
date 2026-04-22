@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import { ExternalLink, Terminal } from "lucide-react"
 import Button from "@/components/ui/Button"
 import HeroBuy from "@/components/sections/HeroBuy"
@@ -150,62 +151,114 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
+          {/* Hero image — woodblock poster */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.15, ease: "easeOut" }}
-            className="w-full"
-            id="field-terminal"
+            className="w-full flex justify-center"
           >
-            <div className="rounded-xl border border-slate-700/80 bg-slate-900/40 shadow-2xl shadow-slate-950/80 overflow-hidden ring-1 ring-white/5">
-              <div className="flex items-center gap-2 px-3 py-2.5 bg-slate-900/90 border-b border-slate-800">
-                <div className="flex gap-1.5 shrink-0">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                </div>
-                <div className="flex-1 min-w-0 flex items-center justify-center px-2">
-                  <span className="text-[11px] font-mono text-slate-500 truncate">
-                    terminal.hosaka.xyz — live · listening
-                  </span>
-                </div>
-                <Link
-                  href={TERMINAL_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shrink-0 p-1.5 rounded-md text-slate-500 hover:text-slate-300 hover:bg-slate-800/80 transition-colors"
-                  aria-label="Open field terminal in new tab"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </Link>
-              </div>
-              <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] bg-slate-950">
-                <iframe
-                  src={TERMINAL_URL}
-                  title="Hosaka field terminal"
-                  className="absolute inset-0 w-full h-full border-0"
-                  allow="clipboard-write"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                />
-              </div>
+            <div className="relative w-full max-w-md lg:max-w-full rounded-2xl overflow-hidden shadow-2xl shadow-slate-950/80 ring-1 ring-white/10">
+              <Image
+                src="/images/decks/poster-woodblock.png"
+                alt="Hosaka Cyberdeck — Japanese woodblock art poster"
+                width={800}
+                height={1000}
+                className="w-full h-auto object-cover"
+                priority
+              />
             </div>
-            <p className="mt-3 text-center text-xs text-slate-600 font-mono">
-              Embedded interface ·{" "}
-              <Link
-                href="/demo"
-                className="text-slate-500 hover:text-blue-400 transition-colors"
-              >
-                fullscreen
-              </Link>
-              <span className="text-slate-700"> · </span>
-              <span className="text-slate-600">
-                shell:{" "}
-                <code className="text-slate-500">/lore</code>,{" "}
-                <code className="text-slate-500">/signal</code>
-              </span>
-            </p>
           </motion.div>
         </div>
+
+        {/* Product image gallery */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.35, ease: "easeOut" }}
+          className="mt-20"
+        >
+          <p className="text-center text-[11px] font-mono uppercase tracking-[0.2em] text-slate-600 mb-6">
+            Hardware · in the field
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { src: "/images/decks/woodblock-dog.png", alt: "Hosaka Cyberdeck — woodblock illustration, boot screen" },
+              { src: "/images/decks/internals_exploded.png", alt: "Hosaka Cyberdeck — internals and battery pack" },
+              { src: "/images/decks/retrowave-photo.png", alt: "Hosaka Cyberdeck — real hardware, retrowave aesthetic" },
+            ].map(({ src, alt }) => (
+              <div
+                key={src}
+                className="rounded-xl overflow-hidden border border-slate-800/70 bg-slate-900/30 shadow-lg shadow-slate-950/50 ring-1 ring-white/5"
+              >
+                <Image
+                  src={src}
+                  alt={alt}
+                  width={600}
+                  height={600}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Embedded terminal */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.5, ease: "easeOut" }}
+          className="mt-16 w-full"
+          id="field-terminal"
+        >
+          <div className="rounded-xl border border-slate-700/80 bg-slate-900/40 shadow-2xl shadow-slate-950/80 overflow-hidden ring-1 ring-white/5">
+            <div className="flex items-center gap-2 px-3 py-2.5 bg-slate-900/90 border-b border-slate-800">
+              <div className="flex gap-1.5 shrink-0">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+              </div>
+              <div className="flex-1 min-w-0 flex items-center justify-center px-2">
+                <span className="text-[11px] font-mono text-slate-500 truncate">
+                  terminal.hosaka.xyz — live · listening
+                </span>
+              </div>
+              <Link
+                href={TERMINAL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 p-1.5 rounded-md text-slate-500 hover:text-slate-300 hover:bg-slate-800/80 transition-colors"
+                aria-label="Open field terminal in new tab"
+              >
+                <ExternalLink className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[21/9] bg-slate-950">
+              <iframe
+                src={TERMINAL_URL}
+                title="Hosaka field terminal"
+                className="absolute inset-0 w-full h-full border-0"
+                allow="clipboard-write"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+              />
+            </div>
+          </div>
+          <p className="mt-3 text-center text-xs text-slate-600 font-mono">
+            Embedded interface ·{" "}
+            <Link
+              href="/demo"
+              className="text-slate-500 hover:text-blue-400 transition-colors"
+            >
+              fullscreen
+            </Link>
+            <span className="text-slate-700"> · </span>
+            <span className="text-slate-600">
+              shell:{" "}
+              <code className="text-slate-500">/lore</code>,{" "}
+              <code className="text-slate-500">/signal</code>
+            </span>
+          </p>
+        </motion.div>
       </div>
     </section>
   )
