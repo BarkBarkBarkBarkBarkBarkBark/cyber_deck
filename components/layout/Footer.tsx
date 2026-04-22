@@ -25,7 +25,13 @@ export default function Footer() {
 
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-mono text-slate-500">
             <Link href="/demo" className="hover:text-slate-300 transition-colors">
-              Demo
+              Terminal
+            </Link>
+            <Link
+              href="/gallery"
+              className="hover:text-slate-300 transition-colors"
+            >
+              Gallery
             </Link>
             <Link href="/specs" className="hover:text-slate-300 transition-colors">
               Specs
