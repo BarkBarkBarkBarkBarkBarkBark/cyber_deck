@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ShoppingCart, Terminal } from "lucide-react"
+import { ArrowRight, PlayCircle, ShoppingCart, Terminal } from "lucide-react"
 import Button from "@/components/ui/Button"
 import BuildShowcase from "@/components/sections/BuildShowcase"
 import { builds } from "@/data/builds"
@@ -68,11 +68,18 @@ export default function Hero() {
                 <ShoppingCart className="h-4 w-4" />
                 Start a build
               </Button>
-              <Button href="/products/parts" variant="secondary" size="lg">
-                View parts matrix
+              <Button href="/demo" size="lg" variant="secondary">
+                <PlayCircle className="h-4 w-4" />
+                Try the Console
+              </Button>
+              <Button href="/products/parts" variant="ghost" size="lg">
+                Parts matrix
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
+            <p className="mt-3 text-[11px] font-mono uppercase tracking-[0.18em] text-slate-500">
+              Free · runs in your browser · no install
+            </p>
 
             {/* Quick-pick tiles — tiny image buttons above the fold */}
             <div className="mt-10 grid grid-cols-3 gap-3 sm:gap-4">
@@ -82,13 +89,13 @@ export default function Hero() {
                   href="#builds"
                   className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/40 transition-all hover:border-slate-600"
                 >
-                  <div className="relative aspect-[4/3] w-full bg-slate-950">
+                  <div className="relative aspect-square w-full bg-slate-950">
                     <Image
-                      src={b.image}
+                      src={b.thumbnail}
                       alt={b.name}
                       fill
                       sizes="(max-width: 640px) 33vw, 240px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                       priority
                     />
                     <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/90 to-transparent" />
@@ -216,17 +223,17 @@ export default function Hero() {
                 Ready to build?
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 sm:text-base">
-                The parts are listed, the Buy buttons are hot. Or, if you want
-                it ready out of the box, we can assemble a Hosaka for you.
+                The parts are listed, the Buy buttons are hot. Or try the
+                Console first — it runs right in your browser.
               </p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button href="#builds" size="lg">
                   <ShoppingCart className="h-4 w-4" />
                   Order the parts
                 </Button>
-                <Button href="/preorder" variant="secondary" size="lg">
-                  Preorder assembled
-                  <ArrowRight className="h-4 w-4" />
+                <Button href="/demo" variant="secondary" size="lg">
+                  <PlayCircle className="h-4 w-4" />
+                  Try the Console
                 </Button>
               </div>
             </div>

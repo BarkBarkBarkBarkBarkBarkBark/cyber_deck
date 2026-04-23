@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { Terminal } from "lucide-react"
 import {
-  getShopifyProductPageUrl,
   getShopifyProductsIndexUrl,
   getShopifyStoreBaseUrl,
 } from "@/lib/shopify"
@@ -9,8 +8,6 @@ import {
 export default function Footer() {
   const shop = getShopifyStoreBaseUrl()
   const catalog = getShopifyProductsIndexUrl()
-  const lite = getShopifyProductPageUrl("field-deck-lite")
-  const op = getShopifyProductPageUrl("operator-deck")
 
   return (
     <footer className="bg-slate-950 border-t border-slate-800/60">
@@ -24,17 +21,17 @@ export default function Footer() {
           </Link>
 
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-mono text-slate-500">
-            <Link href="/demo" className="hover:text-slate-300 transition-colors">
-              Terminal
-            </Link>
             <Link
-              href="/gallery"
+              href="/products/parts"
               className="hover:text-slate-300 transition-colors"
             >
-              Gallery
+              Builds
             </Link>
             <Link href="/specs" className="hover:text-slate-300 transition-colors">
               Specs
+            </Link>
+            <Link href="/demo" className="hover:text-slate-300 transition-colors">
+              Try Console
             </Link>
             <Link href="/lore" className="hover:text-slate-300 transition-colors">
               Lore
@@ -45,16 +42,6 @@ export default function Footer() {
                 className="hover:text-slate-300 transition-colors"
               >
                 Shop
-              </a>
-            ) : null}
-            {lite ? (
-              <a href={lite} className="hover:text-slate-300 transition-colors">
-                Field Deck
-              </a>
-            ) : null}
-            {op ? (
-              <a href={op} className="hover:text-slate-300 transition-colors">
-                Operator
               </a>
             ) : null}
             <a
@@ -78,9 +65,7 @@ export default function Footer() {
               </a>
               {" · "}
             </>
-          ) : (
-            <>Shop URL not set · </>
-          )}
+          ) : null}
           © {new Date().getFullYear()} Hosaka · signal steady
         </p>
       </div>

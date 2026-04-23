@@ -41,13 +41,7 @@ const accent = {
 
 type AccentKey = keyof typeof accent
 
-function BuildPanel({
-  build,
-  onPreorder,
-}: {
-  build: Build
-  onPreorder: string
-}) {
+function BuildPanel({ build }: { build: Build }) {
   const a = accent[build.accent as AccentKey]
   const partsCount = build.parts.length + sharedParts.length
 
@@ -55,36 +49,54 @@ function BuildPanel({
     <div
       className={`overflow-hidden rounded-2xl border ${a.border} bg-slate-950/60 backdrop-blur`}
     >
+      {/* Wide poster art — full width hero of the expanded panel */}
+      <div className="relative bg-slate-950 border-b border-slate-800">
+        <div className="relative aspect-[3/2] sm:aspect-[16/9] w-full">
+          <Image
+            src={build.image}
+            alt={`${build.name} — woodblock poster`}
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+          <div
+            className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent`}
+          />
+          <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <p
+              className={`text-[11px] font-mono uppercase tracking-[0.22em] ${a.text}`}
+            >
+              {build.jpTagline}
+            </p>
+            <h3 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-100 drop-shadow-lg">
+              {build.name}
+            </h3>
+            <p className="mt-0.5 text-sm text-slate-200 drop-shadow">{build.tagline}</p>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-        {/* Image column */}
+        {/* Product render column */}
         <div className="relative bg-slate-950">
-          <div className="relative aspect-[4/3] w-full lg:aspect-auto lg:h-full lg:min-h-[420px]">
+          <div className="relative aspect-square w-full">
             <Image
-              src={build.image}
+              src={build.thumbnail}
               alt={build.name}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-contain p-4 sm:p-6"
-              priority
             />
           </div>
           <div
-            className={`pointer-events-none absolute inset-0 ${a.bgSoft} mix-blend-screen opacity-40`}
+            className={`pointer-events-none absolute inset-0 ${a.bgSoft} mix-blend-screen opacity-30`}
           />
         </div>
 
         {/* Detail column */}
         <div className="p-6 sm:p-8 lg:p-10">
-          <p
-            className={`text-[11px] font-mono uppercase tracking-[0.22em] ${a.text}`}
-          >
-            {build.jpTagline}
-          </p>
-          <h3 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-100">
-            {build.name}
-          </h3>
-          <p className="mt-1 text-sm text-slate-400">{build.tagline}</p>
-          <p className="mt-4 text-sm leading-relaxed text-slate-300">
+          <p className="text-sm leading-relaxed text-slate-300">
             {build.description}
           </p>
 
@@ -200,16 +212,16 @@ function BuildPanel({
             </div>
           </div>
 
-          {/* Assembled option — quieter, deliberately secondary */}
+          {/* Quiet secondary action — try the console instead */}
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-800 bg-slate-900/30 px-4 py-3">
             <p className="text-xs text-slate-400">
-              Prefer it assembled? We also build these to order.
+              Want to see what runs on it first?
             </p>
             <Link
-              href={onPreorder}
+              href="/demo"
               className="inline-flex items-center gap-1 text-xs font-medium text-slate-300 transition-colors hover:text-white"
             >
-              Preorder whole unit
+              Try the Console
               <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
@@ -257,18 +269,18 @@ export default function BuildShowcase() {
                     : "border-slate-800 hover:border-slate-700"
                 }`}
               >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-950">
+                <div className="relative aspect-square w-full overflow-hidden bg-slate-950">
                   <Image
-                    src={b.image}
+                    src={b.thumbnail}
                     alt={b.name}
                     fill
                     sizes="(max-width: 640px) 100vw, 33vw"
-                    className={`object-cover transition-transform duration-500 ${
+                    className={`object-contain p-3 transition-transform duration-500 ${
                       isActive ? "scale-105" : "group-hover:scale-105"
                     }`}
                   />
                   <div
-                    className={`absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-slate-950 to-transparent`}
+                    className={`absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-950 to-transparent`}
                   />
                   {isActive ? (
                     <span
@@ -303,7 +315,7 @@ export default function BuildShowcase() {
 
         {/* Expanded detail panel */}
         <div className="mt-8">
-          <BuildPanel build={current} onPreorder="/preorder" />
+          <BuildPanel build={current} />
         </div>
 
         {/* Compare everything */}

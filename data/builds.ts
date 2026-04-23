@@ -21,6 +21,9 @@ export interface Build {
   tagline: string
   jpTagline: string
   description: string
+  /** Square, clean product render. Used in selector cards and quick-pick tiles. */
+  thumbnail: string
+  /** Wide woodblock poster. Used in the expanded detail panel and hero art. */
   image: string
   accent: string // tailwind color token for highlights
   specs: BuildSpec[]
@@ -46,6 +49,7 @@ export const builds: Build[] = [
     jpTagline: "卓上型サイバーデッキ",
     description:
       "A tabletop cyberdeck with detachable keyboard. NPU-accelerated compute, 7\" IPS, full I/O. Built around the Orange Pi 4 Pro for Ollama + OpenClaw workloads.",
+    thumbnail: "/images/desktop_console_thumbnail.png",
     image: "/images/cyberdeck1.png",
     accent: "blue",
     specs: [
@@ -79,6 +83,7 @@ export const builds: Build[] = [
     jpTagline: "ホサカ デスクトップ",
     description:
       "Clamshell portable. Pomera-silhouette chassis, agent-ready stack (PicoClaw, Sandbox, MCP). For mobile dev work and field writing.",
+    thumbnail: "/images/field_terminal_thumbnail.png",
     image: "/images/cyberdeck2.png",
     accent: "amber",
     specs: [
@@ -108,6 +113,7 @@ export const builds: Build[] = [
     jpTagline: "ウェアラブル・サイバーデッキ",
     description:
       "Wrist-mounted modular deck. Detach the core and dock it as a standalone terminal. White leather harness, 3.5\" display, dock + keyboard module.",
+    thumbnail: "/images/wearable_thumbnail.png",
     image: "/images/cyberdeck3.png",
     accent: "rose",
     specs: [

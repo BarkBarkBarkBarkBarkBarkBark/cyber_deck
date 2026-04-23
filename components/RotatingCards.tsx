@@ -36,13 +36,13 @@ export default function RotatingCards() {
                   : "border-slate-800 ring-transparent hover:border-slate-700"
               }`}
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-950">
+              <div className="relative aspect-square w-full overflow-hidden bg-slate-950">
                 <Image
-                  src={b.image}
+                  src={b.thumbnail}
                   alt={b.name}
                   fill
                   sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <div className="p-4">
@@ -61,14 +61,23 @@ export default function RotatingCards() {
       <div className="mt-10 w-full max-w-6xl rounded-2xl border border-slate-800 bg-slate-900/30 p-6 sm:p-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,360px)_1fr]">
           <div>
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-950">
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-950">
               <Image
                 src={build.image}
+                alt={`${build.name} — woodblock poster`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 360px"
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="relative mt-3 aspect-square w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-950">
+              <Image
+                src={build.thumbnail}
                 alt={build.name}
                 fill
                 sizes="(max-width: 1024px) 100vw, 360px"
-                className="object-contain"
-                priority
+                className="object-contain p-3"
               />
             </div>
             <p className={`mt-4 text-[10px] font-mono uppercase tracking-[0.2em] ${accentText[build.accent]}`}>

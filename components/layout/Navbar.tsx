@@ -45,10 +45,10 @@ export default function Navbar() {
     const shopHref = storeBase ? `${storeBase}/collections/all` : null
 
     return [
-      { href: "/demo", label: "Terminal" },
-      { href: "/gallery", label: "Gallery" },
-      { href: "/products/parts", label: "Parts" },
+      { href: "/products/parts", label: "Builds" },
       { href: "/specs", label: "Specs" },
+      { href: "/demo", label: "Try Console" },
+      { href: "/lore", label: "Lore" },
       ...(shopHref ? [{ href: shopHref, label: "Shop" }] : []),
     ]
   }, [])
