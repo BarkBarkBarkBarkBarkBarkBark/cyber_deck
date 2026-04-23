@@ -100,27 +100,39 @@ function BuildPanel({ build }: { build: Build }) {
             {build.description}
           </p>
 
-          {/* Big conversion CTA — parts first */}
+          {/* Dual CTA — build it yourself OR buy assembled */}
           <div className={`mt-6 rounded-xl border ${a.border} ${a.bgSoft} p-4`}>
-            <div className="flex items-start justify-between gap-4">
-              <div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
                 <p className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
-                  Start building · {partsCount} parts
+                  Two ways to own it
                 </p>
                 <p className="mt-1 text-lg font-semibold text-slate-100">
-                  Order the bill of materials.
+                  Build it yourself — or buy it built.
                 </p>
                 <p className="mt-1 text-xs text-slate-400">
-                  Every part, affiliate-linked on Amazon. Scroll down, tap Buy, assemble.
+                  {partsCount} affiliate parts below, or have us ship one
+                  assembled for&nbsp;${build.price}.
                 </p>
               </div>
-              <a
-                href="#parts"
-                className={`shrink-0 inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-all ${a.button}`}
-              >
-                <ShoppingCart className="h-4 w-4" />
-                Parts list
-              </a>
+              <div className="flex flex-wrap gap-2 shrink-0">
+                <a
+                  href="#parts"
+                  className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-all ${a.button}`}
+                >
+                  <ShoppingCart className="h-4 w-4" />
+                  Parts list
+                </a>
+                <a
+                  href={build.shopUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-900/80 px-4 py-2.5 text-sm font-semibold text-slate-100 transition-all hover:border-slate-400 hover:bg-slate-900"
+                >
+                  Buy assembled · ${build.price}
+                  <ExternalLink className="h-3.5 w-3.5 opacity-70" />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -212,18 +224,24 @@ function BuildPanel({ build }: { build: Build }) {
             </div>
           </div>
 
-          {/* Quiet secondary action — try the console instead */}
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-800 bg-slate-900/30 px-4 py-3">
-            <p className="text-xs text-slate-400">
-              Want to see what runs on it first?
-            </p>
+          {/* Secondary actions: try the console · buy assembled */}
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <Link
               href="/demo"
-              className="inline-flex items-center gap-1 text-xs font-medium text-slate-300 transition-colors hover:text-white"
+              className="inline-flex items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-3 text-xs font-medium text-slate-300 transition-all hover:border-slate-600 hover:text-white"
             >
-              Try the Console
+              <span>Try the Console first</span>
               <ArrowRight className="h-3 w-3" />
             </Link>
+            <a
+              href={build.shopUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-3 text-xs font-medium text-slate-300 transition-all hover:border-slate-600 hover:text-white"
+            >
+              <span>View on Shopify · ${build.price}</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
           </div>
         </div>
       </div>
@@ -289,6 +307,9 @@ export default function BuildShowcase() {
                       Selected
                     </span>
                   ) : null}
+                  <span className="absolute top-3 right-3 rounded-full border border-slate-700 bg-slate-950/80 px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest text-slate-200 backdrop-blur">
+                    ${b.price}
+                  </span>
                 </div>
                 <div className="flex items-start justify-between gap-2 p-4">
                   <div>

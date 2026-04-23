@@ -98,10 +98,15 @@ export default function Hero() {
                       className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                       priority
                     />
-                    <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/90 to-transparent" />
-                    <p className="absolute bottom-1.5 left-2 right-2 text-left text-[11px] sm:text-xs font-semibold text-slate-100">
-                      {b.name.replace("Hosaka ", "")}
-                    </p>
+                    <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-slate-950/90 to-transparent" />
+                    <span className="absolute top-2 right-2 rounded-full border border-slate-700 bg-slate-950/80 px-2 py-0.5 text-[10px] font-mono text-slate-200 backdrop-blur">
+                      ${b.price}
+                    </span>
+                    <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between gap-2">
+                      <p className="text-left text-[11px] sm:text-xs font-semibold text-slate-100">
+                        {b.name.replace("Hosaka ", "")}
+                      </p>
+                    </div>
                   </div>
                 </a>
               ))}

@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, ShoppingCart } from "lucide-react"
 import { builds, sharedParts } from "@/data/builds"
 
 const accentRing: Record<string, string> = {
@@ -15,6 +15,12 @@ const accentText: Record<string, string> = {
   blue: "text-blue-400",
   amber: "text-amber-400",
   rose: "text-rose-400",
+}
+
+const accentButton: Record<string, string> = {
+  blue: "bg-blue-500 hover:bg-blue-400 text-white border-blue-400 shadow-lg shadow-blue-500/30",
+  amber: "bg-amber-500 hover:bg-amber-400 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/30",
+  rose: "bg-rose-500 hover:bg-rose-400 text-white border-rose-400 shadow-lg shadow-rose-500/30",
 }
 
 export default function RotatingCards() {
@@ -44,6 +50,9 @@ export default function RotatingCards() {
                   sizes="(max-width: 640px) 100vw, 33vw"
                   className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
                 />
+                <span className="absolute top-2 right-2 rounded-full border border-slate-700 bg-slate-950/80 px-2 py-0.5 text-[10px] font-mono text-slate-200 backdrop-blur">
+                  ${b.price}
+                </span>
               </div>
               <div className="p-4">
                 <p className={`text-[10px] font-mono uppercase tracking-[0.2em] ${accentText[b.accent]}`}>
@@ -85,6 +94,16 @@ export default function RotatingCards() {
             </p>
             <h2 className="mt-1 text-2xl font-bold text-slate-100">{build.name}</h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{build.description}</p>
+            <a
+              href={build.shopUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-all ${accentButton[build.accent]}`}
+            >
+              <ShoppingCart className="h-4 w-4" />
+              Buy assembled · ${build.price}
+              <ExternalLink className="h-3.5 w-3.5 opacity-70" />
+            </a>
           </div>
 
           <div>

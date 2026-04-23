@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ShoppingCart } from "lucide-react"
+import { ArrowRight, ExternalLink, ShoppingCart } from "lucide-react"
 import { builds } from "@/data/builds"
 
 export const metadata: Metadata = {
@@ -20,6 +20,12 @@ const accentDot: Record<string, string> = {
   blue: "bg-blue-500",
   amber: "bg-amber-500",
   rose: "bg-rose-500",
+}
+
+const accentButton: Record<string, string> = {
+  blue: "bg-blue-500 hover:bg-blue-400 text-white border-blue-400 shadow-lg shadow-blue-500/30",
+  amber: "bg-amber-500 hover:bg-amber-400 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/30",
+  rose: "bg-rose-500 hover:bg-rose-400 text-white border-rose-400 shadow-lg shadow-rose-500/30",
 }
 
 export default function SpecsPage() {
@@ -51,7 +57,7 @@ export default function SpecsPage() {
               key={b.slug}
               className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/30"
             >
-              <div className="px-6 py-5 border-b border-slate-800 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+              <div className="px-6 py-5 border-b border-slate-800 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
                   <p
                     className={`text-[11px] font-mono uppercase tracking-[0.22em] ${accentText[b.accent]}`}
@@ -65,17 +71,28 @@ export default function SpecsPage() {
                     {b.tagline}
                   </p>
                 </div>
-                <Link
-                  href={`/products/parts#${b.slug}`}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-300 hover:text-white transition-colors"
-                >
-                  <ShoppingCart className="h-3.5 w-3.5" />
-                  Parts list
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
+                <div className="flex flex-col items-stretch sm:items-end gap-2">
+                  <a
+                    href={b.shopUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-all ${accentButton[b.accent]}`}
+                  >
+                    <ShoppingCart className="h-4 w-4" />
+                    Buy assembled · ${b.price}
+                    <ExternalLink className="h-3.5 w-3.5 opacity-70" />
+                  </a>
+                  <Link
+                    href={`/products/parts#${b.slug}`}
+                    className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors"
+                  >
+                    Or build it yourself
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
               </div>
               <div className="px-6 py-6 grid lg:grid-cols-[minmax(0,320px)_1fr] gap-8 items-start">
-                <figure className="lg:sticky lg:top-28 space-y-3">
+                <figure className="lg:sticky lg:top-28">
                   <div className="relative aspect-square w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
                     <Image
                       src={b.thumbnail}
@@ -84,15 +101,6 @@ export default function SpecsPage() {
                       className="object-contain p-3"
                       sizes="(max-width: 1024px) 100vw, 320px"
                       priority={b.slug === "desktop"}
-                    />
-                  </div>
-                  <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-slate-800/60 bg-slate-950 opacity-80">
-                    <Image
-                      src={b.image}
-                      alt={`${b.name} poster`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 320px"
                     />
                   </div>
                 </figure>

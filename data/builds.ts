@@ -26,6 +26,10 @@ export interface Build {
   /** Wide woodblock poster. Used in the expanded detail panel and hero art. */
   image: string
   accent: string // tailwind color token for highlights
+  /** Direct Shopify product page URL for the assembled unit. */
+  shopUrl: string
+  /** USD price of the assembled unit on Shopify. */
+  price: number
   specs: BuildSpec[]
   parts: Part[]
 }
@@ -52,6 +56,8 @@ export const builds: Build[] = [
     thumbnail: "/images/desktop_console_thumbnail.png",
     image: "/images/cyberdeck1.png",
     accent: "blue",
+    shopUrl: "https://shop.hosaka.xyz/products/desktop_console",
+    price: 500,
     specs: [
       { label: "Compute", value: "Orange Pi 4 Pro (8GB RAM, NPU 3 TOPS)" },
       { label: "Display", value: "7\" IPS · 1024×600" },
@@ -86,6 +92,8 @@ export const builds: Build[] = [
     thumbnail: "/images/field_terminal_thumbnail.png",
     image: "/images/cyberdeck2.png",
     accent: "amber",
+    shopUrl: "https://shop.hosaka.xyz/products/field_terminal?variant=48071253065969",
+    price: 500,
     specs: [
       { label: "Compute", value: "Orange Pi 4 Pro (8GB RAM) — Raspberry Pi 3B compatible" },
       { label: "Display", value: "7\" IPS · 1024×600" },
@@ -116,6 +124,8 @@ export const builds: Build[] = [
     thumbnail: "/images/wearable_thumbnail.png",
     image: "/images/cyberdeck3.png",
     accent: "rose",
+    shopUrl: "https://shop.hosaka.xyz/products/wearable_cyber_deck?variant=48058999374065",
+    price: 300,
     specs: [
       { label: "Compute", value: "Orange Pi Zero 3W (4GB) · Raspberry Pi 4 / Zero W compatible" },
       { label: "Display", value: "3.5\" IPS LCD · 640×480" },
