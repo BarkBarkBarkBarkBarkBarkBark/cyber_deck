@@ -47,6 +47,7 @@ export default function Navbar() {
     return [
       { href: "/demo", label: "Terminal" },
       { href: "/gallery", label: "Gallery" },
+      { href: "/products/parts", label: "Parts" },
       { href: "/specs", label: "Specs" },
       ...(shopHref ? [{ href: shopHref, label: "Shop" }] : []),
     ]

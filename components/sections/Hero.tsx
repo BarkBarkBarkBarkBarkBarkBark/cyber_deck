@@ -153,6 +153,15 @@ export default function Hero() {
               >
                 See specs
               </Button>
+              <Button
+                href="/products/parts"
+                variant="secondary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                Build your own
+                <ArrowRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
 
