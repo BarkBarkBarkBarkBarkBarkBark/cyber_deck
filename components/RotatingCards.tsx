@@ -1,178 +1,153 @@
-"use client"
+import Image from 'next/image';
+import { useState } from 'react';
 
-import Image from "next/image"
-import { useState } from "react"
-import { ExternalLink, ShoppingCart } from "lucide-react"
-import { builds, sharedParts } from "@/data/builds"
+const models = [
+  {
+    name: 'Hosaka Desktop',
+    image: '/images/cyberdeck1.jpg',
+    description: 'A powerful desktop cyberdeck with 8GB RAM, NPU, and a 7-inch IPS display. Optimized for OpenClaw and Ollama.',
+  },
+  {
+    name: 'Hosaka Portable',
+    image: '/images/cyberdeck2.jpg',
+    description: 'A compact, portable cyberdeck with Raspberry Pi, 8GB RAM, and agent-ready software. Ideal for mobile hacking and dev work.',
+  },
+  {
+    name: 'Hosaka Wearable',
+    image: '/images/cyberdeck3.jpg',
+    description: 'A wearable cyberdeck with modular design, 3.5-inch display, and flexible harness. Perfect for on-the-go creativity.',
+  },
+];
 
-const accentRing: Record<string, string> = {
-  blue: "ring-blue-500/40 hover:ring-blue-400/70",
-  amber: "ring-amber-500/40 hover:ring-amber-400/70",
-  rose: "ring-rose-500/40 hover:ring-rose-400/70",
-}
-
-const accentText: Record<string, string> = {
-  blue: "text-blue-400",
-  amber: "text-amber-400",
-  rose: "text-rose-400",
-}
-
-const accentButton: Record<string, string> = {
-  blue: "bg-blue-500 hover:bg-blue-400 text-white border-blue-400 shadow-lg shadow-blue-500/30",
-  amber: "bg-amber-500 hover:bg-amber-400 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/30",
-  rose: "bg-rose-500 hover:bg-rose-400 text-white border-rose-400 shadow-lg shadow-rose-500/30",
-}
+const components = [
+  [
+    ['Orange Pi 4 Pro 8gb', 'https://amzn.to/4cHNYpy'],
+    ['ORange Pi Zero 3w 4gb', 'https://amzn.to/4cHNYpy'],
+    ['NVMe Reader Writer', 'https://amzn.to/4cXO3GK'],
+    ['128 GB SATA SSD', 'https://amzn.to/3Qu0YHK'],
+    ['RTL SDR Reciever (Radio)', 'https://amzn.to/3QmUN8s'],
+    ['Webcam with Speaker and Microphone', 'https://amzn.to/48iNNj7'],
+    ['USB C to USB Micro', 'https://amzn.to/4cHnQLg'],
+    ['Museum Putty', 'https://amzn.to/3OZaL8h'],
+    ['GeekPi 220PCS Screw Nut Assortment', 'https://amzn.to/4emZc5l'],
+    ['10000 mAh 3.7V Li Po rechargable battery', 'https://amzn.to/4w3xHnN'],
+    ['Exacto Knive Set with Mat', 'https://amzn.to/4eEwPzn'],
+    ['Balsa Wood Sheets', 'https://amzn.to/4cI3vFC'],
+    ['Cutter', 'https://amzn.to/4cEgN63'],
+    ['Adafruit PowerBoost 1000', 'https://amzn.to/41OW1fe'],
+    ['Compact MEchanical Keyboard', 'https://amzn.to/3OU1gHu'],
+    ['5 Inch Touch Screen', 'https://amzn.to/3QWkahm'],
+    ['Digital Calipers', 'https://amzn.to/4tshc2L'],
+    ['Camera Cable 15 Pin FFC Ribbon', 'https://amzn.to/4cEJtvB'],
+    ['USB C to USB Micro', 'https://amzn.to/3OyWjno'],
+    ['Neuromancer', 'https://amzn.to/4uoGhvJ'],
+    ['Mini Keyboard', 'https://amzn.to/3OBhR2I'],
+    ['Battery Pack', 'https://amzn.to/48dUvH8'],
+  ],
+  // For demo, all models use the same list. You can customize per model if needed.
+  [
+    ['Orange Pi 4 Pro 8gb', 'https://amzn.to/4cHNYpy'],
+    ['ORange Pi Zero 3w 4gb', 'https://amzn.to/4cHNYpy'],
+    ['NVMe Reader Writer', 'https://amzn.to/4cXO3GK'],
+    ['128 GB SATA SSD', 'https://amzn.to/3Qu0YHK'],
+    ['RTL SDR Reciever (Radio)', 'https://amzn.to/3QmUN8s'],
+    ['Webcam with Speaker and Microphone', 'https://amzn.to/48iNNj7'],
+    ['USB C to USB Micro', 'https://amzn.to/4cHnQLg'],
+    ['Museum Putty', 'https://amzn.to/3OZaL8h'],
+    ['GeekPi 220PCS Screw Nut Assortment', 'https://amzn.to/4emZc5l'],
+    ['10000 mAh 3.7V Li Po rechargable battery', 'https://amzn.to/4w3xHnN'],
+    ['Exacto Knive Set with Mat', 'https://amzn.to/4eEwPzn'],
+    ['Balsa Wood Sheets', 'https://amzn.to/4cI3vFC'],
+    ['Cutter', 'https://amzn.to/4cEgN63'],
+    ['Adafruit PowerBoost 1000', 'https://amzn.to/41OW1fe'],
+    ['Compact MEchanical Keyboard', 'https://amzn.to/3OU1gHu'],
+    ['5 Inch Touch Screen', 'https://amzn.to/3QWkahm'],
+    ['Digital Calipers', 'https://amzn.to/4tshc2L'],
+    ['Camera Cable 15 Pin FFC Ribbon', 'https://amzn.to/4cEJtvB'],
+    ['USB C to USB Micro', 'https://amzn.to/3OyWjno'],
+    ['Neuromancer', 'https://amzn.to/4uoGhvJ'],
+    ['Mini Keyboard', 'https://amzn.to/3OBhR2I'],
+    ['Battery Pack', 'https://amzn.to/48dUvH8'],
+  ],
+  [
+    ['Orange Pi 4 Pro 8gb', 'https://amzn.to/4cHNYpy'],
+    ['ORange Pi Zero 3w 4gb', 'https://amzn.to/4cHNYpy'],
+    ['NVMe Reader Writer', 'https://amzn.to/4cXO3GK'],
+    ['128 GB SATA SSD', 'https://amzn.to/3Qu0YHK'],
+    ['RTL SDR Reciever (Radio)', 'https://amzn.to/3QmUN8s'],
+    ['Webcam with Speaker and Microphone', 'https://amzn.to/48iNNj7'],
+    ['USB C to USB Micro', 'https://amzn.to/4cHnQLg'],
+    ['Museum Putty', 'https://amzn.to/3OZaL8h'],
+    ['GeekPi 220PCS Screw Nut Assortment', 'https://amzn.to/4emZc5l'],
+    ['10000 mAh 3.7V Li Po rechargable battery', 'https://amzn.to/4w3xHnN'],
+    ['Exacto Knive Set with Mat', 'https://amzn.to/4eEwPzn'],
+    ['Balsa Wood Sheets', 'https://amzn.to/4cI3vFC'],
+    ['Cutter', 'https://amzn.to/4cEgN63'],
+    ['Adafruit PowerBoost 1000', 'https://amzn.to/41OW1fe'],
+    ['Compact MEchanical Keyboard', 'https://amzn.to/3OU1gHu'],
+    ['5 Inch Touch Screen', 'https://amzn.to/3QWkahm'],
+    ['Digital Calipers', 'https://amzn.to/4tshc2L'],
+    ['Camera Cable 15 Pin FFC Ribbon', 'https://amzn.to/4cEJtvB'],
+    ['USB C to USB Micro', 'https://amzn.to/3OyWjno'],
+    ['Neuromancer', 'https://amzn.to/4uoGhvJ'],
+    ['Mini Keyboard', 'https://amzn.to/3OBhR2I'],
+    ['Battery Pack', 'https://amzn.to/48dUvH8'],
+  ],
+];
 
 export default function RotatingCards() {
-  const [active, setActive] = useState<number>(0)
-  const build = builds[active]
+  const [active, setActive] = useState<number | null>(null);
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <div className="grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-3">
-        {builds.map((b, idx) => {
-          const isActive = idx === active
-          return (
-            <button
-              key={b.slug}
-              onClick={() => setActive(idx)}
-              className={`group relative overflow-hidden rounded-2xl border bg-slate-900/40 text-left transition-all duration-300 ring-1 ${
-                isActive
-                  ? `border-slate-600 scale-[1.01] ${accentRing[b.accent]}`
-                  : "border-slate-800 ring-transparent hover:border-slate-700"
-              }`}
-            >
-              <div className="relative aspect-square w-full overflow-hidden bg-slate-950">
-                <Image
-                  src={b.thumbnail}
-                  alt={b.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute top-2 right-2 rounded-full border border-slate-700 bg-slate-950/80 px-2 py-0.5 text-[10px] font-mono text-slate-200 backdrop-blur">
-                  ${b.price}
-                </span>
-              </div>
-              <div className="p-4">
-                <p className={`text-[10px] font-mono uppercase tracking-[0.2em] ${accentText[b.accent]}`}>
-                  {b.jpTagline}
-                </p>
-                <h3 className="mt-1 text-lg font-semibold text-slate-100">{b.name}</h3>
-                <p className="mt-1 text-xs text-slate-400">{b.tagline}</p>
-              </div>
-            </button>
-          )
-        })}
-      </div>
-
-      {/* Active build detail */}
-      <div className="mt-10 w-full max-w-6xl rounded-2xl border border-slate-800 bg-slate-900/30 p-6 sm:p-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,360px)_1fr]">
-          <div>
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-950">
-              <Image
-                src={build.image}
-                alt={`${build.name} — woodblock poster`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 360px"
-                className="object-cover"
-                priority
-              />
-            </div>
-            <div className="relative mt-3 aspect-square w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-950">
-              <Image
-                src={build.thumbnail}
-                alt={build.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 360px"
-                className="object-contain p-3"
-              />
-            </div>
-            <p className={`mt-4 text-[10px] font-mono uppercase tracking-[0.2em] ${accentText[build.accent]}`}>
-              {build.jpTagline}
-            </p>
-            <h2 className="mt-1 text-2xl font-bold text-slate-100">{build.name}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-400">{build.description}</p>
-            <a
-              href={build.shopUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-all ${accentButton[build.accent]}`}
-            >
-              <ShoppingCart className="h-4 w-4" />
-              Buy assembled · ${build.price}
-              <ExternalLink className="h-3.5 w-3.5 opacity-70" />
-            </a>
-          </div>
-
-          <div>
-            <h3 className="text-xs font-mono uppercase tracking-widest text-slate-500">Specs</h3>
-            <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
-              {build.specs.map((s) => (
-                <div key={s.label} className="flex flex-col border-b border-slate-800/60 py-1.5">
-                  <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-500">{s.label}</dt>
-                  <dd className="text-sm text-slate-200">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-
-            <h3 className="mt-8 text-xs font-mono uppercase tracking-widest text-slate-500">
-              Parts list · {build.parts.length} items
-            </h3>
-            <ul className="mt-3 divide-y divide-slate-800/60 rounded-lg border border-slate-800 bg-slate-950/40">
-              {build.parts.map((p) => (
-                <li key={p.name} className="flex items-center justify-between gap-3 px-3 py-2.5">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm text-slate-200">{p.name}</p>
-                    {p.note ? <p className="text-[11px] text-slate-500">{p.note}</p> : null}
+    <div className="flex flex-col items-center w-full">
+      <div className="flex flex-row gap-6 mb-8 flex-wrap justify-center">
+        {models.map((model, idx) => (
+          <div
+            key={model.name}
+            className={`relative w-80 h-96 rounded-xl shadow-lg bg-white border border-gray-200 cursor-pointer transition-transform duration-300 ${active === idx ? 'scale-105 z-10' : 'hover:scale-105'}`}
+            onClick={() => setActive(idx === active ? null : idx)}
+            style={{ boxShadow: active === idx ? '0 8px 32px rgba(0,0,0,0.18)' : undefined }}
+          >
+            <Image
+              src={model.image}
+              alt={model.name}
+              width={320}
+              height={180}
+              className="rounded-t-xl object-cover w-full h-44"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-2">{model.name}</h2>
+              <p className="text-gray-700 mb-2">{model.description}</p>
+              {active === idx && (
+                <div className="mt-4">
+                  <h3 className="font-bold mb-2">Parts List</h3>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full text-sm border border-gray-300">
+                      <thead>
+                        <tr>
+                          <th className="px-2 py-1 border-b">Component</th>
+                          <th className="px-2 py-1 border-b">Link</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {components[idx].map(([name, url]) => (
+                          <tr key={name}>
+                            <td className="px-2 py-1 border-b font-medium">{name}</td>
+                            <td className="px-2 py-1 border-b">
+                              <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Buy</a>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className={`inline-flex shrink-0 items-center gap-1 rounded-md border border-slate-700 bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-200 transition-colors hover:border-slate-500 hover:text-white`}
-                  >
-                    Buy <ExternalLink className="h-3 w-3" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-8">
-          <h3 className="text-xs font-mono uppercase tracking-widest text-slate-500">
-            Shared tools & consumables · {sharedParts.length} items
-          </h3>
-          <p className="mt-1 text-xs text-slate-500">Needed for all three builds.</p>
-          <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {sharedParts.map((p) => (
-              <li
-                key={p.name}
-                className="flex items-center justify-between gap-3 rounded-md border border-slate-800 bg-slate-950/40 px-3 py-2"
-              >
-                <div className="min-w-0">
-                  <p className="truncate text-sm text-slate-200">{p.name}</p>
-                  {p.note ? <p className="text-[11px] text-slate-500">{p.note}</p> : null}
                 </div>
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
-                  className="inline-flex shrink-0 items-center gap-1 rounded-md border border-slate-700 bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
-                >
-                  Buy <ExternalLink className="h-3 w-3" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
-
-      <p className="mt-6 text-center text-xs text-slate-500">
-        Links are Amazon affiliate — thanks for supporting Hosaka.
-      </p>
+      <p className="text-xs text-gray-500">Click a card to view and stick the full parts list.</p>
     </div>
-  )
+  );
 }
