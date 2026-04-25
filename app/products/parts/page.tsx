@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import RotatingCards from '../../components/RotatingCards';
+import RotatingCards from '../../../components/RotatingCards';
 
 export default function PartsPage() {
   return (
