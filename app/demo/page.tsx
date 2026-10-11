@@ -5,7 +5,7 @@ import { ExternalLink } from "lucide-react"
 export const metadata: Metadata = {
   title: "Terminal Demo",
   description:
-    "Try the browser-only Hosaka demo: safe terminal commands, orb artwork, and the bundled lore archive. No AI, shell, or device access.",
+    "Use the real Hosaka terminal in an access-code-gated, disposable Fly Machine with a private workspace and capped AI access.",
 }
 
 const TERMINAL_URL = "https://terminal.hosaka.xyz"
@@ -15,7 +15,7 @@ export default function DemoPage() {
     <div className="bg-slate-950 min-h-screen pt-16 flex flex-col">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 w-full">
         <p className="text-xs font-mono uppercase tracking-widest text-blue-400 mb-3">
-          Browser-only Demo
+          Hosted Terminal
         </p>
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
@@ -23,13 +23,13 @@ export default function DemoPage() {
               Hosaka Field Terminal
             </h1>
             <p className="text-slate-400 text-sm leading-relaxed max-w-xl">
-              Every deck ships with the Hosaka shell environment. Try it here —
+              This is the real Hosaka TUI, running in your own disposable Fly
+              Machine. Enter your access code, then
               type <code className="text-blue-400 font-mono">/help</code> to get
-              started, <code className="text-blue-400 font-mono">/lore</code> for
-              recovered fragments,{" "}
-              <code className="text-blue-400 font-mono">/signal</code> when you
-              for a decorative signal message. This demo has no AI, native
-              shell, or device access; install Hosaka for the full console.
+              started. AI and workspace tools run on the hosted machine, not
+              your computer. Sessions last up to 10 minutes and allow up to 30
+              model requests. Files are discarded when the session ends.
+              Deck hardware and the deployment host are not accessible.
             </p>
           </div>
           <Link
