@@ -5,7 +5,7 @@ import { ExternalLink } from "lucide-react"
 export const metadata: Metadata = {
   title: "Terminal Demo",
   description:
-    "Try the Hosaka Field Terminal — a simulated web desktop with a command-line interface, reading library, and task management.",
+    "Try the browser-only Hosaka demo: safe terminal commands, orb artwork, and the bundled lore archive. No AI, shell, or device access.",
 }
 
 const TERMINAL_URL = "https://terminal.hosaka.xyz"
@@ -15,7 +15,7 @@ export default function DemoPage() {
     <div className="bg-slate-950 min-h-screen pt-16 flex flex-col">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 w-full">
         <p className="text-xs font-mono uppercase tracking-widest text-blue-400 mb-3">
-          Live Demo
+          Browser-only Demo
         </p>
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
@@ -28,7 +28,8 @@ export default function DemoPage() {
               started, <code className="text-blue-400 font-mono">/lore</code> for
               recovered fragments,{" "}
               <code className="text-blue-400 font-mono">/signal</code> when you
-              want to hear the line is clean.
+              for a decorative signal message. This demo has no AI, native
+              shell, or device access; install Hosaka for the full console.
             </p>
           </div>
           <Link
